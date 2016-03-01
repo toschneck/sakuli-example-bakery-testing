@@ -1,21 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.consol.citrus.demo.devoxx</groupId>
-    <artifactId>citrus-cookies</artifactId>
+      <groupId>com.consol.demo.bakery</groupId>
+      <artifactId>bakery-root</artifactId>
     <version>1.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>com.consol.citrus.demo.devoxx</groupId>
-  <artifactId>citrus-cookies-worker</artifactId>
-  <name>citrus-cookies-worker</name>
+    <artifactId>cookies-worker</artifactId>
+    <name>cookies-worker</name>
 
   <properties>
     <factory.type>chocolate</factory.type>
     <factory.costs>200</factory.costs>
+      <deployment.name>worker</deployment.name>
+      <image.name>consol/${artifactId}</image.name>
   </properties>
 
   <dependencies>
@@ -57,7 +58,7 @@
   </dependencies>
 
   <build>
-    <finalName>worker</finalName>
+      <finalName>${deployment.name}</finalName>
 
     <plugins>
       <plugin>
@@ -69,7 +70,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>com.consol.citrus.demo.devoxx.WorkerApp</mainClass>
+                <mainClass>com.consol.demo.bakery.WorkerApp</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -130,19 +131,6 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <systemPropertyVariables>
-            <activemq.server.host>${docker.host.name}</activemq.server.host>
-            <activemq.server.port>${activemq.server.port}</activemq.server.port>
-            <report.server.host>${docker.host.name}</report.server.host>
-            <report.server.port>${report.server.port}</report.server.port>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <groupId>org.jolokia</groupId>
         <artifactId>docker-maven-plugin</artifactId>
         <configuration>
@@ -175,8 +163,9 @@
                 </log>
               </run>
             </image>
+              <!-- base image for different worker instances -->
             <image>
-              <alias>worker-chocolate</alias>
+                <alias>${deployment.name}-chocolate</alias>
               <name>jolokia/java-jolokia:7</name>
               <run>
                 <namingStrategy>alias</namingStrategy>
@@ -191,12 +180,12 @@
                 <env>
                   <FACTORY_TYPE>${factory.type}</FACTORY_TYPE>
                   <FACTORY_COSTS>${factory.costs}</FACTORY_COSTS>
-                  <REPORT_PORT_8080_TCP_ADDR>${citrus.host.name}</REPORT_PORT_8080_TCP_ADDR>
+                    <REPORT_PORT_8080_TCP_ADDR>${report.server.host}</REPORT_PORT_8080_TCP_ADDR>
                   <REPORT_PORT_8080_TCP_PORT>${report.server.port}</REPORT_PORT_8080_TCP_PORT>
                 </env>
-                <cmd>java -jar maven/worker.jar</cmd>
+                  <cmd>java -jar maven/${deployment.name}.jar</cmd>
                 <wait>
-                  <log>.*bakery-worker..started</log>
+                    <log>.*bakery-${deployment.name}..started</log>
                   <time>60000</time>
                   <shutdown>500</shutdown>
                 </wait>
@@ -208,7 +197,7 @@
             </image>
             <image>
               <alias>application</alias>
-              <name>citrus/bakery-worker:${project.version}</name>
+                <name>${image.name}:${project.version}</name>
               <build>
                 <tags>
                   <tag>latest</tag>
