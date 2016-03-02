@@ -24,15 +24,19 @@ import org.apache.camel.spring.Main;
  */
 public class WorkerApp extends Main {
 
+    public static final String TYPE = "FACTORY_TYPE";
+    public static final String COSTS = "FACTORY_COSTS";
+
     public static void main(String[] args) throws Exception {
-        if (args.length > 0) {
-            System.setProperty("FACTORY_TYPE", args[0]);
+        if (args.length > 0 && args[0] != null) {
+            System.setProperty(TYPE, args[0]);
         }
 
-        if (args.length > 1) {
-            System.setProperty("FACTORY_COSTS", args[1]);
+        if (args.length > 1 && args[1] != null) {
+            System.setProperty(COSTS, args[1]);
         }
-
+        System.out.println(String.format("START WITH: FACTORY_TYPE '%s' and FACTORY_COSTS '%s'",
+                System.getProperty(TYPE), System.getProperty(COSTS)));
         WorkerApp application = new WorkerApp();
         application.run();
     }

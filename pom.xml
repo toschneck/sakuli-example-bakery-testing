@@ -24,6 +24,7 @@
         <testng.version>6.9.6</testng.version>
         <slf4j.version>1.7.12</slf4j.version>
         <jolokia.version>1.3.1</jolokia.version>
+        <maven.plugin.docker.version>0.14.1</maven.plugin.docker.version>
 
         <application.server>tomcat-7.0</application.server>
         <message.broker>activemq-5.12</message.broker>
@@ -32,8 +33,15 @@
         <report.server.host>${docker.host.name}</report.server.host>
 
         <!-- docker image names -->
-        <docker.image.name.web.app>consol/bakery-web-app</docker.image.name.web.app>
-        <docker.image.name.report.server>consol/bakery-report</docker.image.name.report.server>
+        <docker.image.tag>latest</docker.image.tag>
+        <docker.image.name.web-server>consol/bakery-web-app</docker.image.name.web-server>
+        <docker.image.name.report-server>consol/bakery-report</docker.image.name.report-server>
+        <docker.image.name.worker>consol/bakery-worker</docker.image.name.worker>
+        <docker.image.name.activemq>consol/${message.broker}</docker.image.name.activemq>
+        <docker.alias.activemq>activemq-broker</docker.alias.activemq>
+        <docker.alias.worker.base>bakery-worker</docker.alias.worker.base>
+        <docker.alias.web-server>bakery-web-server</docker.alias.web-server>
+        <docker.alias.report-server>bakery-report-server</docker.alias.report-server>
     </properties>
 
     <dependencyManagement>
@@ -185,9 +193,9 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.jolokia</groupId>
+                    <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.13.5</version>
+                    <version>${maven.plugin.docker.version}</version>
                 </plugin>
 
                 <plugin>
@@ -260,6 +268,34 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${maven.plugin.docker.version}</version>
+                    <executions>
+                        <execution>
+                            <id>build-images</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>clean-up</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>stop</goal>
+                                <goal>remove</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <watchInterval>500</watchInterval>
+                        <logDate>default</logDate>
+                        <verbose>true</verbose>
+                    </configuration>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -298,7 +334,7 @@
                     </plugin>
 
                     <plugin>
-                        <groupId>org.jolokia</groupId>
+                        <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <executions>
                             <execution>
