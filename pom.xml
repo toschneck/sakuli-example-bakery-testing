@@ -14,6 +14,7 @@
         <module>worker</module>
         <module>report</module>
         <module>app-deployment</module>
+        <module>mvn-ui-tests</module>
     </modules>
 
     <properties>
