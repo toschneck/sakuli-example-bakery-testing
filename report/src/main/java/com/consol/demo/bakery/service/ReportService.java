@@ -31,10 +31,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ReportService implements InitializingBean {
 
-    /** In memory report **/
+    /**
+     * In memory report
+     **/
     private Map<String, AtomicInteger> report = new LinkedHashMap<>();
 
-    /** In memory id store of produced items */
+    /**
+     * In memory id store of produced items
+     */
     private ArrayList<String> produced = new ArrayList<>();
 
     @Autowired
@@ -42,6 +46,7 @@ public class ReportService implements InitializingBean {
 
     /**
      * Gets the status of a very specific item found by its id.
+     *
      * @return
      */
     public boolean status(String id) {
@@ -50,6 +55,7 @@ public class ReportService implements InitializingBean {
 
     /**
      * Adds new produced item.
+     *
      * @param id
      * @param type
      * @param amount
@@ -70,6 +76,7 @@ public class ReportService implements InitializingBean {
 
     /**
      * Inform stakeholders that we have produced a large amount of cookies.
+     *
      * @param type
      */
     private void informStakeholders(String type) {
@@ -79,6 +86,7 @@ public class ReportService implements InitializingBean {
 
     /**
      * Gets the current cookie order count of type.
+     *
      * @param type
      * @return
      */
@@ -88,6 +96,7 @@ public class ReportService implements InitializingBean {
 
     /**
      * Construc JSON report data.
+     *
      * @return
      */
     public String json() {
@@ -100,6 +109,7 @@ public class ReportService implements InitializingBean {
 
     /**
      * Construct HTML report data.
+     *
      * @return
      */
     public String html() {
@@ -124,6 +134,7 @@ public class ReportService implements InitializingBean {
 
     /**
      * Gets list of all produced order ids.
+     *
      * @return
      */
     public String orders() {
@@ -147,17 +158,22 @@ public class ReportService implements InitializingBean {
     /**
      * Reset all reports in memory.
      */
-    public void reset() {
-        report.clear();
+    public void reset(String type) {
+        System.out.println("reset type: " + type);
         produced.clear();
-
-        report.put("chocolate", new AtomicInteger());
-        report.put("caramel", new AtomicInteger());
-        report.put("blueberry", new AtomicInteger());
+        if (type.equals("all")) {
+            report.clear();
+            report.put("chocolate", new AtomicInteger());
+            report.put("caramel", new AtomicInteger());
+            report.put("blueberry", new AtomicInteger());
+        } else {
+            report.put(type,new AtomicInteger());
+            System.out.println("cleared " + report.toString());
+        }
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        reset();
+        reset("all");
     }
 }

@@ -146,6 +146,10 @@
                                 <assembly>
                                     <descriptorRef>artifact-with-dependencies</descriptorRef>
                                 </assembly>
+                                <env>
+                                    <REPORT_PORT_8080_TCP_ADDR>report</REPORT_PORT_8080_TCP_ADDR>
+                                    <REPORT_PORT_8080_TCP_PORT>8080</REPORT_PORT_8080_TCP_PORT>
+                                </env>
                                 <cmd>java -jar maven/worker.jar</cmd>
                             </build>
                         </image>
@@ -155,67 +159,4 @@
         </plugins>
     </build>
 
-    <!--<profiles>-->
-    <!--<profile>-->
-    <!--<id>single-module-run-mode</id>-->
-    <!--<properties>-->
-    <!--<factory.type>chocolate</factory.type>-->
-    <!--<factory.costs>200</factory.costs>-->
-    <!--</properties>-->
-
-    <!--<build>-->
-    <!--<plugins>-->
-    <!--<plugin>-->
-    <!--<groupId>io.fabric8</groupId>-->
-    <!--<artifactId>docker-maven-plugin</artifactId>-->
-    <!--<executions>-->
-    <!--<execution>-->
-    <!--<id>run-choclate-single</id>-->
-    <!--<goals>-->
-    <!--<goal>start</goal>-->
-    <!--</goals>-->
-    <!--<phase>pre-integration-test</phase>-->
-    <!--<configuration>-->
-    <!--<images>-->
-    <!--<image>-->
-    <!--<name>${image.name}</name>-->
-    <!--<alias>${docker.alias.worker.base}-single-choclate</alias>-->
-    <!--<run>-->
-    <!--<namingStrategy>alias</namingStrategy>-->
-    <!--<links>-->
-    <!--<link>${docker.alias.activemq}:activemq</link>-->
-    <!--</links>-->
-    <!--<env>-->
-    <!--<FACTORY_TYPE>${factory.type}</FACTORY_TYPE>-->
-    <!--<FACTORY_COSTS>${factory.costs}</FACTORY_COSTS>-->
-    <!--<REPORT_PORT_8080_TCP_ADDR>${report.server.host}-->
-    <!--</REPORT_PORT_8080_TCP_ADDR>-->
-    <!--<REPORT_PORT_8080_TCP_PORT>${report.server.port}-->
-    <!--</REPORT_PORT_8080_TCP_PORT>-->
-    <!--</env>-->
-    <!--<cmd>java -jar maven/${deployment.name}.jar</cmd>-->
-    <!--<wait>-->
-    <!--<log>.*bakery-${deployment.name}..started</log>-->
-    <!--<time>60000</time>-->
-    <!--<shutdown>500</shutdown>-->
-    <!--</wait>-->
-    <!--<log>-->
-    <!--<enabled>true</enabled>-->
-    <!--<color>green</color>-->
-    <!--</log>-->
-    <!--</run>-->
-    <!--</image>-->
-    <!--<image>-->
-    <!--<alias>${docker.alias.activemq}</alias>-->
-    <!--<name>${docker.image.activemq}</name>-->
-    <!--</image>-->
-    <!--</images>-->
-    <!--</configuration>-->
-    <!--</execution>-->
-    <!--</executions>-->
-    <!--</plugin>-->
-    <!--</plugins>-->
-    <!--</build>-->
-    <!--</profile>-->
-    <!--</profiles>-->
 </project>
