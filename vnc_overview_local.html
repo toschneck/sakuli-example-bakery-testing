@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+  ~ Sakuli - Testing and Monitoring-Tool for Websites and common UIs.
+  ~
+  ~ Copyright 2013 - 2015 the original author or authors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+	body{
+	  background: url("bg_bottom_banner.png");
+      background-position: bottom right;
+      background-size: 15%;
+      background-repeat: no-repeat;
+
+	  font-family: 'Source Sans Pro', Arial, sans-serif;
+	  font-size:20px;
+	  font-weight: normal;
+	  color: #595959; 
+	  
+	  }
+	  table {
+		margin-left:auto;
+		margin-right:auto;
+	  }
+	a{
+		color: #595959;
+		text-decoration: none;		
+	}
+	.docker-blue{
+	color:  #327DAF;
+	}
+
+        .wrapper {
+            width: 700px;
+            height: 550px;
+            padding: 0;
+            overflow: hidden;
+        }
+        .scaled-frame {
+            width: 1280px;
+            height: 1100px;
+            border: 0px;
+        }
+        .scaled-frame {
+            zoom: 0.5;
+            -moz-transform: scale(0.5);
+            -moz-transform-origin: 0 0;
+            -o-transform: scale(0.5);
+            -o-transform-origin: 0 0;
+            -webkit-transform: scale(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            .scaled-frame {
+                zoom: 1;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <table>
+        <tr style="width: 100%">
+            <td>
+                <div class="wrapper">
+                    <a target="_blank" href="http://localhost:6911/vnc_auto.html?password=sakuli">
+                         <b class="docker-blue">docker_1</b> (vnc_port 5911, web_vnc_port: 6911)
+                    </a>
+                    <iframe class="scaled-frame"
+                            src="http://localhost:6911/vnc_auto.html?password=sakuli&view_only=true"></iframe>
+                </div>
+            </td>
+            <td>
+                <div class="wrapper">
+                    <a target="_blank" href="http://localhost:6912/vnc_auto.html?password=sakuli">
+                         <b class="docker-blue">docker_2</b> (vnc_port 5912, web_vnc_port: 6912)
+                    </a>
+                    <iframe class="scaled-frame"
+                            src="http://localhost:6912/vnc_auto.html?password=sakuli&view_only=true"></iframe>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="wrapper">
+                    <a target="_blank" href="http://localhost:6913/vnc_auto.html?password=sakuli">
+                         <b class="docker-blue">docker_3</b> (vnc_port 5913, web_vnc_port: 6913)
+                    </a>
+                    <iframe class="scaled-frame"
+                            src="http://localhost:6913/vnc_auto.html?password=sakuli&view_only=true"></iframe>
+                </div>
+            </td>
+            <td>
+                <div class="wrapper">
+                    <a target="_blank" href="http://localhost:6914/vnc_auto.html?password=sakuli">
+                        <b class="docker-blue">docker_4</b> (vnc_port 5914, web_vnc_port: 6914)
+                    </a>
+                    <iframe class="scaled-frame"
+                            src="http://localhost:6914/vnc_auto.html?password=sakuli&view_only=true"></iframe>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <p  style="padding-bottom: 1em" ></p>
+
+</body>
+</html>
