@@ -12,6 +12,21 @@ sakuli-test-bakery:
     - bakery-web-server
     - bakery-report-server
 
+jenkins-sakuli-test-bakery:
+#    image: consol/sakuli-centos-xfce:v1.0.0
+#    image: consol/sakuli-ubuntu-xfce:v1.0.0
+    build: .
+    ports:
+    - 5911:5901
+    - 6911:6901
+#    volumes:
+#    - .:/opt/tests
+#    command: ["run /opt/tests/bakery-blueberry -browser chrome"]
+    command: ["run /opt/tests/bakery-blueberry -browser firefox"]
+    external_links:
+    - bakery-web-server
+    - bakery-report-server
+
 wait:
     build: wait-for-server
     command: "/root/wait-for-server.sh"
