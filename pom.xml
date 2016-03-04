@@ -13,8 +13,7 @@
         <module>web</module>
         <module>worker</module>
         <module>report</module>
-        <module>app-deployment</module>
-        <module>mvn-ui-tests</module>
+        <module>app-deployment-maven</module>
     </modules>
 
     <properties>
