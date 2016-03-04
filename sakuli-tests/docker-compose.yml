@@ -13,7 +13,7 @@ local-sakuli-test-bakery:
     - bakery-report-server
 
 jenkins-sakuli-test-bakery:
-    name: jenkins-sakuli-test-bakery
+    container_name: jenkins-sakuli-test-bakery
     build: .
     ports:
     - 5911:5901
