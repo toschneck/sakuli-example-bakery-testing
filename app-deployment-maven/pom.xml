@@ -9,8 +9,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>app-deployment</artifactId>
-    <name>app-deployment</name>
+    <artifactId>app-deployment-maven</artifactId>
+    <name>app-deployment-maven</name>
     <packaging>pom</packaging>
 
     <build>
