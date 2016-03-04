@@ -7,7 +7,7 @@ sakuli-test-bakery:
     volumes:
     - .:/opt/tests
 #    command: ["run /opt/tests/bakery-blueberry -browser chrome"]
-    command: ["run /opt/tests/bakery-blueberry -browser firefox -preHook /root/wait-for-server.sh"]
+    command: ["run /opt/tests/bakery-blueberry -browser firefox"]
     external_links:
     - bakery-web-server
     - bakery-report-server
