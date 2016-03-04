@@ -14,6 +14,7 @@
         <module>worker</module>
         <module>report</module>
         <module>app-deployment-maven</module>
+        <module>sakuli-tests-maven</module>
     </modules>
 
     <properties>

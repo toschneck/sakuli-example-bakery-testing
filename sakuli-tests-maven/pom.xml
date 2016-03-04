@@ -5,21 +5,16 @@
         <groupId>com.consol.demo.bakery</groupId>
         <artifactId>app-deployment</artifactId>
         <version>1.0</version>
-        <relativePath>../app-deployment/pom.xml</relativePath>
+        <relativePath>../app-deployment-maven/pom.xml</relativePath>
     </parent>
 
-    <!--<parent>-->
-    <!--<groupId>com.consol.demo.bakery</groupId>-->
-    <!--<artifactId>bakery-root</artifactId>-->
-    <!--<version>1.0</version>-->
-    <!--<relativePath>../pom.xml</relativePath>-->
-    <!--</parent>-->
-    <artifactId>mvn-ui-tests</artifactId>
+    <artifactId>sakuli-tests-maven</artifactId>
+    <name>sakuli-tests-maven</name>
 
-    <name>mvn-ui-tests</name>
     <properties>
         <docker.image.sakuli>consol/sakuli-centos-xfce:dev</docker.image.sakuli>
         <!--<docker.image.sakuli>consol/sakuli-ubuntu-xfce:dev</docker.image.sakuli>-->
+        <docker.alias.sakuli.test>maven-sakuli-test-blueberry</docker.alias.sakuli.test>
     </properties>
 
     <build>
@@ -38,7 +33,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <alias>sakuli-test</alias>
+                                    <alias>${docker.alias.sakuli.test}</alias>
                                     <name>${docker.image.sakuli}</name>
                                 </image>
                             </images>
@@ -53,22 +48,22 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <alias>sakuli-test</alias>
+                                    <alias>${docker.alias.sakuli.test}</alias>
                                     <name>${docker.image.sakuli}</name>
                                     <run>
                                         <namingStrategy>alias</namingStrategy>
                                         <links>
-                                            <link>${docker.alias.report-server}:report</link>
-                                            <link>${docker.alias.web-server}:bakery</link>
+                                            <link>${docker.alias.report-server}</link>
+                                            <link>${docker.alias.web-server}</link>
                                         </links>
                                         <volumes>
                                             <bind>
-                                                <volume>${pom.basedir}/../sakuli-e2e-tests:/opt/tests</volume>
+                                                <volume>${pom.basedir}/../sakuli-tests:/opt/tests</volume>
                                             </bind>
                                         </volumes>
                                         <cmd>run /opt/tests/bakery-blueberry</cmd>
                                         <ports>
-                                            <port>6901:6901</port>
+                                            <port>6914:6901</port>
                                         </ports>
                                         <wait>
                                             <log>SAKULI.*RETURN.*0</log>
