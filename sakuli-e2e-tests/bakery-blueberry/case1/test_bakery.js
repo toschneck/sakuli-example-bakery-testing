@@ -84,7 +84,7 @@ try {
 
 } catch (e) {
     testCase.handleException(e);
-    env.sleep(9999);
+    //env.sleep(9999);
 } finally {
     testCase.saveResult();
 }
