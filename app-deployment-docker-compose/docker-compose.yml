@@ -1,3 +1,5 @@
+#uncomment ports to access the app from outside
+
 activemq-broker:
   container_name: activemq-broker
   image: consol/activemq-5.12
@@ -5,8 +7,8 @@ activemq-broker:
 bakery-web-server:
   container_name: bakery-web-server
   image: consol/bakery-web-app
-  ports:
-  - 18001:8080
+#  ports:
+#  - 18001:8080
   links:
   - activemq-broker:activemq
   - bakery-worker-chocolate
@@ -19,8 +21,8 @@ bakery-web-server:
 bakery-report-server:
   container_name: bakery-report-server
   image: consol/bakery-report
-  ports:
-  - 18002:8080
+#  ports:
+#  - 18002:8080
 
 bakery-worker-chocolate:
   container_name: bakery-worker-chocolate

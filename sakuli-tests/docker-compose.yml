@@ -1,6 +1,6 @@
-local-sakuli-test-bakery:
-#    image: consol/sakuli-centos-xfce:v1.0.0
-    image: consol/sakuli-ubuntu-xfce:v1.0.0
+local-sakuli-test-blueberry:
+    image: consol/sakuli-centos-xfce:v1.0.0
+#    image: consol/sakuli-ubuntu-xfce:v1.0.0
     ports:
     - 5911:5901
     - 6911:6901
@@ -12,14 +12,16 @@ local-sakuli-test-bakery:
     - bakery-web-server
     - bakery-report-server
 
-jenkins-sakuli-test-bakery:
-    container_name: jenkins-sakuli-test-bakery
-    build: .
+local-sakuli-test-caramel:
+#    image: consol/sakuli-ubuntu-xfce:v1.0.0
+    image: consol/sakuli-centos-xfce:v1.0.0
     ports:
-    - 5911:5901
-    - 6911:6901
-    command: ["run /opt/tests/bakery-blueberry -browser chrome"]
-#    command: ["run /opt/tests/bakery-blueberry -browser firefox"]
+    - 5912:5901
+    - 6912:6901
+    volumes:
+    - .:/opt/tests
+    command: ["run /opt/tests/bakery-caramel -browser chrome"]
+#    command: ["run /opt/tests/bakery-caramel -browser firefox"]
     external_links:
     - bakery-web-server
     - bakery-report-server

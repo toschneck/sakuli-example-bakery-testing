@@ -1,29 +1,31 @@
-activemq-broker:
-  container_name: activemq-broker
+#docker-compose file for the second server environment
+
+activemq-broker2:
+  container_name: activemq-broker2
   image: consol/activemq-5.12
 
-bakery-web-server:
-  container_name: bakery-web-server
+bakery-web-server2:
+  container_name: bakery-web-server2
   image: consol/bakery-web-app
-  ports:
-  - 18001:8080
+#  ports:
+#  - 18001:8080
   links:
-  - activemq-broker:activemq
-  - bakery-worker-chocolate
-  - bakery-worker-blueberry
-  - bakery-worker-caramel
+  - activemq-broker2:activemq
+  - bakery-worker-chocolate2
+  - bakery-worker-blueberry2
+  - bakery-worker-caramel2
   environment:
   - ACTIVEMQ_PORT_61616_TCP_ADDR=activemq
   - ACTIVEMQ_PORT_61616_TCP_PORT=61616
 
-bakery-report-server:
-  container_name: bakery-report-server
+bakery-report-server2:
+  container_name: bakery-report-server2
   image: consol/bakery-report
-  ports:
-  - 18002:8080
+#  ports:
+#  - 18002:8080
 
-bakery-worker-chocolate:
-  container_name: bakery-worker-chocolate
+bakery-worker-chocolate2:
+  container_name: bakery-worker-chocolate2
   image: consol/bakery-worker
   links:
   - bakery-report-server:report
@@ -34,8 +36,8 @@ bakery-worker-chocolate:
   - ACTIVEMQ_PORT_61616_TCP_ADDR=activemq
   - ACTIVEMQ_PORT_61616_TCP_PORT=61616
 
-bakery-worker-blueberry:
-  container_name: bakery-worker-blueberry
+bakery-worker-blueberry2:
+  container_name: bakery-worker-blueberry2
   image: consol/bakery-worker
   links:
   - bakery-report-server:report
@@ -46,8 +48,8 @@ bakery-worker-blueberry:
   - ACTIVEMQ_PORT_61616_TCP_ADDR=activemq
   - ACTIVEMQ_PORT_61616_TCP_PORT=61616
 
-bakery-worker-caramel:
-  container_name: bakery-worker-caramel
+bakery-worker-caramel2:
+  container_name: bakery-worker-caramel2
   image: consol/bakery-worker
   links:
   - bakery-report-server:report
@@ -57,3 +59,10 @@ bakery-worker-caramel:
   - FACTORY_COSTS=500
   - ACTIVEMQ_PORT_61616_TCP_ADDR=activemq
   - ACTIVEMQ_PORT_61616_TCP_PORT=61616
+
+wait2:
+    build: wait-for-server
+    command: "/root/wait-for-server.sh"
+    external_links:
+    - bakery-web-server2
+    - bakery-report-server2

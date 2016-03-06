@@ -79,7 +79,7 @@
                                                     <port>8161</port>
                                                 </ports>
                                             </tcp>
-                                            <time>10000</time>
+                                            <time>60000</time>
                                             <shutdown>500</shutdown>
                                         </wait>
                                         <log>
@@ -93,22 +93,15 @@
                                     <name>${docker.image.name.report-server}</name>
                                     <run>
                                         <namingStrategy>alias</namingStrategy>
-                                        <ports>
-                                            <port>${report.server.port}:8080</port>
-                                        </ports>
+                                        <!--<ports>-->
+                                            <!--<port>${report.server.port}:8080</port>-->
+                                        <!--</ports>-->
                                         <wait>
-                                            <!--<log>Server startup in.*</log>-->
                                             <tcp>
                                                 <ports>
                                                     <port>8080</port>
                                                 </ports>
                                             </tcp>
-                                            <!--<http>-->
-                                            <!--<url>http://${docker.host.name}:${report.server.port}/report/jolokia-->
-                                            <!--</url>-->
-                                            <!--<method>GET</method>-->
-                                            <!--<status>200</status>-->
-                                            <!--</http>-->
                                             <time>60000</time>
                                             <shutdown>500</shutdown>
                                         </wait>
@@ -126,22 +119,15 @@
                                         <links>
                                             <link>${docker.alias.activemq}:activemq</link>
                                         </links>
-                                        <ports>
-                                            <port>${web-app.server.port}:8080</port>
-                                        </ports>
+                                        <!--<ports>-->
+                                            <!--<port>${web-app.server.port}:8080</port>-->
+                                        <!--</ports>-->
                                         <wait>
-                                            <!--<log>Server startup in.*</log>-->
                                             <tcp>
                                                 <ports>
                                                     <port>8080</port>
                                                 </ports>
                                             </tcp>
-                                            <!--<http>-->
-                                            <!--<url>http://${docker.host.name}:${web-app.server.port}/bakery/jolokia-->
-                                            <!--</url>-->
-                                            <!--<method>GET</method>-->
-                                            <!--<status>200</status>-->
-                                            <!--</http>-->
                                             <time>60000</time>
                                         </wait>
                                         <log>

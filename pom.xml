@@ -25,7 +25,7 @@
         <testng.version>6.9.6</testng.version>
         <slf4j.version>1.7.12</slf4j.version>
         <jolokia.version>1.3.1</jolokia.version>
-        <maven.plugin.docker.version>0.14.1</maven.plugin.docker.version>
+        <maven.plugin.docker.version>0.14.2</maven.plugin.docker.version>
 
         <application.server>tomcat-7.0</application.server>
         <message.broker>activemq-5.12</message.broker>
@@ -39,10 +39,12 @@
         <docker.image.name.report-server>consol/bakery-report</docker.image.name.report-server>
         <docker.image.name.worker>consol/bakery-worker</docker.image.name.worker>
         <docker.image.name.activemq>consol/${message.broker}</docker.image.name.activemq>
-        <docker.alias.activemq>activemq-broker</docker.alias.activemq>
-        <docker.alias.worker.base>bakery-worker</docker.alias.worker.base>
-        <docker.alias.web-server>bakery-web-server</docker.alias.web-server>
-        <docker.alias.report-server>bakery-report-server</docker.alias.report-server>
+        <docker.vnc.port>4</docker.vnc.port>
+        <docker.alias.prefix>mvn${docker.vnc.port}-</docker.alias.prefix>
+        <docker.alias.activemq>${docker.alias.prefix}activemq-broker</docker.alias.activemq>
+        <docker.alias.worker.base>${docker.alias.prefix}bakery-worker</docker.alias.worker.base>
+        <docker.alias.web-server>${docker.alias.prefix}bakery-web-server</docker.alias.web-server>
+        <docker.alias.report-server>${docker.alias.prefix}bakery-report-server</docker.alias.report-server>
     </properties>
 
     <dependencyManagement>

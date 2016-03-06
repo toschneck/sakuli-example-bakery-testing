@@ -22,9 +22,7 @@ var env = new Environment();
 var screen = new Region();
 
 var $sleep4Prasentation = 0;
-//var $bakeryURL = "http://localhost:18001/bakery/";
 var $bakeryURL = "http://bakery-web-server:8080/bakery/";
-//var $reportURL = "http://localhost:18002/report/";
 var $reportURL = "http://bakery-report-server:8080/report/";
 var $countOfClicks = 3;
 
@@ -62,9 +60,9 @@ try {
 
     _navigateTo($reportURL);
     _highlight(_heading1("Cookie Bakery Reporting"));
-    _highlight(_span("blueberry"));
     _highlight(_link("Reload"));
     _click(_link("Reload"));
+    _highlight(_span("blueberry"));
 
     var $blueberryIdentifier = _div("progress-bar[1]");
     _highlight($blueberryIdentifier);
@@ -101,9 +99,9 @@ function checkUbuntuOS() {
     if (dist.match(/NAME=.*Ubuntu.*/)) {
         Logger.logInfo('Detected distribution: Ubuntu  >> override some image patterns');
         testCase.addImagePaths("ubuntu");
-    }
-    if (_isChrome()) {
-        testCase.addImagePaths("ubuntu/chrome");
+        if (_isChrome()) {
+            testCase.addImagePaths("ubuntu/chrome");
+        }
     }
 }
 
@@ -114,7 +112,7 @@ function validatePrintPreview() {
         env.type("p", Key.CTRL);
     }
     env.setSimilarity(0.8);
-    screen.waitForImage("report_header.png",5).highlight();
+    screen.waitForImage("report_header.png", 5).highlight();
     screen.find("print_pic_blueberries.png").highlight();
     var blueberryRegion = screen.find("report_blueberry.png").highlight();
     var blueberryValueRegion = blueberryRegion.below(100).highlight().find("report_value_60.png").highlight();
