@@ -28,8 +28,8 @@ bakery-worker-chocolate2:
   container_name: bakery-worker-chocolate2
   image: consol/bakery-worker
   links:
-  - bakery-report-server:report
-  - activemq-broker:activemq
+  - bakery-report-server2:report
+  - activemq-broker2:activemq
   environment:
   - FACTORY_TYPE=chocolate
   - FACTORY_COSTS=200
@@ -40,8 +40,8 @@ bakery-worker-blueberry2:
   container_name: bakery-worker-blueberry2
   image: consol/bakery-worker
   links:
-  - bakery-report-server:report
-  - activemq-broker:activemq
+  - bakery-report-server2:report
+  - activemq-broker2:activemq
   environment:
   - FACTORY_TYPE=blueberry
   - FACTORY_COSTS=400
@@ -52,8 +52,8 @@ bakery-worker-caramel2:
   container_name: bakery-worker-caramel2
   image: consol/bakery-worker
   links:
-  - bakery-report-server:report
-  - activemq-broker:activemq
+  - bakery-report-server2:report
+  - activemq-broker2:activemq
   environment:
   - FACTORY_TYPE=caramel
   - FACTORY_COSTS=500
