@@ -80,9 +80,6 @@
                             <alias>${docker.alias.web-server}</alias>
                             <build>
                                 <from>consol/${application.server}:latest</from>
-                                <tags>
-                                    <tag>${docker.image.tag}</tag>
-                                </tags>
                                 <assembly>
                                     <descriptorRef>artifact</descriptorRef>
                                 </assembly>

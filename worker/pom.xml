@@ -140,9 +140,6 @@
                             <alias>${docker.alias.worker.base}</alias>
                             <build>
                                 <from>jolokia/java-jolokia:7</from>
-                                <tags>
-                                    <tag>${docker.image.tag}</tag>
-                                </tags>
                                 <assembly>
                                     <descriptorRef>artifact-with-dependencies</descriptorRef>
                                 </assembly>
