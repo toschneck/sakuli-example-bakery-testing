@@ -11,5 +11,5 @@ wait2:
     build: wait-for-server
     command: "/root/wait-for-server.sh"
     external_links:
-    - bakery-web-server2
-    - bakery-report-server2
+    - bakery-web-server2:bakery-web-server
+    - bakery-report-server2:bakery-report-server
