@@ -84,7 +84,7 @@ function cleanupReport($linkname) {
 
 
 function moveAmountSlider() {
-    var bubble = screen.find("bubble.png").highlight();
+    var bubble = screen.waitForImage("bubble.png",10).highlight();
     bubble.dragAndDropTo(bubble.right(135).highlight());
     //assert value of bubble is 30
     _assertEqual(30, Number(_getText(_div("slider slider-horizontal"))));

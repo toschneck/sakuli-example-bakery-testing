@@ -34,7 +34,7 @@ try {
 
 
     _navigateTo($bakeryURL);
-    var bubble = screen.find("bubble.png").highlight();
+    var bubble = screen.waitForImage("bubble.png",10).highlight();
     bubble.dragAndDropTo(bubble.right(30).highlight());
 
     //assert value of bubble is 20
