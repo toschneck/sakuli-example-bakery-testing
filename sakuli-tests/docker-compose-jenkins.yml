@@ -40,4 +40,4 @@ jenkins-sakuli-test-caramel-firefox:
     command: ["run /opt/tests/bakery-caramel -browser firefox"]
     external_links:
     - bakery-web-server2:bakery-web-server
-    - bakery-report-server2:bakery-report-serverr
+    - bakery-report-server2:bakery-report-server
