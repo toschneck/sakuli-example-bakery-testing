@@ -1,6 +1,7 @@
 #docker-compose file for the both wait container, to get a trigger, when the webservers are reachable
 
 wait:
+    cotainer_name: wait-for-bakery-servers
     build: wait-for-server
     command: "/root/wait-for-server.sh"
     external_links:
@@ -8,6 +9,7 @@ wait:
     - bakery-report-server
 
 wait2:
+    cotainer_name: wait-for-bakery-servers2
     build: wait-for-server
     command: "/root/wait-for-server.sh"
     external_links:
