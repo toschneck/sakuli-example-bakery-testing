@@ -71,7 +71,7 @@ result=$(cat $WORKSPACE/console.log | grep SAKULI_RETURN_VAL | sed -n -e &apos;s
 echo $result
 
 ## copy the runtime data to the workspace
-docker cp $CONTAINER_NAME:/opt/tests/ $WORKSPACE/sakuli_log
+docker cp $CONTAINER_NAME:/opt/tests/$TESTSUITE/_logs $WORKSPACE/_logs
 
 if [ -z &quot;$result&quot; ]; then
 	echo &quot;UNEXPECTED result check the log&quot;
@@ -83,7 +83,7 @@ fi</command>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>sakuli_log/*$TESTSUITE/</artifacts>
+      <artifacts>_logs</artifacts>
       <allowEmptyArchive>true</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -93,6 +93,12 @@ fi</command>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
+      <patterns>
+        <hudson.plugins.ws__cleanup.Pattern>
+          <pattern>**/_logs/</pattern>
+          <type>INCLUDE</type>
+        </hudson.plugins.ws__cleanup.Pattern>
+      </patterns>
       <deleteDirs>false</deleteDirs>
       <cleanupParameter></cleanupParameter>
       <externalDelete></externalDelete>

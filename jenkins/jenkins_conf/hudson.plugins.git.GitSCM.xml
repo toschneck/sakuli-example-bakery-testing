@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson.plugins.git.GitSCM_-DescriptorImpl plugin="git@2.4.2">
-  <generation>22</generation>
+  <generation>23</generation>
   <globalConfigName>jenkins</globalConfigName>
   <globalConfigEmail>sakuli@consol.de</globalConfigEmail>
   <createAccountBasedOnEmail>false</createAccountBasedOnEmail>

@@ -4,15 +4,6 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <hudson.model.ParametersDefinitionProperty>
-      <parameterDefinitions>
-        <hudson.model.StringParameterDefinition>
-          <name>TAG</name>
-          <description></description>
-          <defaultValue>javaland-mvn</defaultValue>
-        </hudson.model.StringParameterDefinition>
-      </parameterDefinitions>
-    </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -47,14 +38,14 @@
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>package -Ddocker.image.tag=$TAG</targets>
+      <targets>clean package</targets>
       <mavenName>mvn</mavenName>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
     </hudson.tasks.Maven>
     <hudson.tasks.Maven>
-      <targets>clean verify -Ddocker.image.tag=$TAG</targets>
+      <targets>clean verify docker:stop</targets>
       <mavenName>mvn</mavenName>
       <pom>sakuli-tests-maven/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>
@@ -66,7 +57,7 @@
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
       <deleteDirs>false</deleteDirs>
-      <cleanupParameter></cleanupParameter>
+      <cleanupParameter>**/_logs/</cleanupParameter>
       <externalDelete></externalDelete>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
   </buildWrappers>
