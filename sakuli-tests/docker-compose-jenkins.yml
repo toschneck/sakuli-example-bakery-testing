@@ -1,5 +1,5 @@
 jenkins-sakuli-test-blueberry-firefox:
-    container_name: jenkins-sakuli-test-blueberry-chrome
+    container_name: jenkins-sakuli-test-blueberry-firefox
     build: .
     ports:
     - 5911:5901
@@ -21,7 +21,7 @@ jenkins-sakuli-test-caramel-chrome:
     - bakery-report-server
 
 jenkins-sakuli-test-chocolate-firefox:
-    container_name: jenkins-sakuli-test-blueberry-firefox
+    container_name: jenkins-sakuli-test-chocolate-firefox
     build: .
     ports:
     - 5913:5901
