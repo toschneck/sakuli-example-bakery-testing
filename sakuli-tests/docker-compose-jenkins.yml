@@ -4,7 +4,7 @@ jenkins-sakuli-test-blueberry-chrome:
     ports:
     - 5911:5901
     - 6911:6901
-    command: ["run /opt/tests/bakery-blueberry -browser chrome"]
+    command: ["run /opt/tests/blueberry -browser chrome"]
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -15,7 +15,7 @@ jenkins-sakuli-test-caramel-chrome:
     ports:
     - 5912:5901
     - 6912:6901
-    command: ["run /opt/tests/bakery-caramel -browser chrome"]
+    command: ["run /opt/tests/caramel -browser chrome"]
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -26,7 +26,7 @@ jenkins-sakuli-test-blueberry-firefox:
     ports:
     - 5913:5901
     - 6913:6901
-    command: ["run /opt/tests/bakery-blueberry -browser firefox"]
+    command: ["run /opt/tests/blueberry -browser firefox"]
     external_links:
     - bakery-web-server:bakery-web-server
     - bakery-report-server:bakery-report-server
@@ -37,7 +37,7 @@ jenkins-sakuli-test-caramel-firefox:
     ports:
     - 5914:5901
     - 6914:6901
-    command: ["run /opt/tests/bakery-caramel -browser firefox"]
+    command: ["run /opt/tests/caramel -browser firefox"]
     external_links:
     - bakery-web-server:bakery-web-server
     - bakery-report-server:bakery-report-server

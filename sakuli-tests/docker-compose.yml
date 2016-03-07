@@ -5,7 +5,7 @@ local-sakuli-test-blueberry-chrome:
     - 6911:6901
     volumes:
     - .:/opt/tests
-    command: ["run /opt/tests/bakery-blueberry -browser chrome"]
+    command: ["run /opt/tests/blueberry -browser chrome"]
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -29,7 +29,7 @@ local-sakuli-test-blueberry-firefox:
     - 6913:6901
     volumes:
     - .:/opt/tests
-    command: ["run /opt/tests/bakery-blueberry -browser firefox"]
+    command: ["run /opt/tests/blueberry -browser firefox"]
     external_links:
     - bakery-web-server2:bakery-web-server
     - bakery-report-server2:bakery-report-server
