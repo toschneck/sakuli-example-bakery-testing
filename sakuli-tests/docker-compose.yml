@@ -1,19 +1,16 @@
-local-sakuli-test-blueberry:
+local-sakuli-test-blueberry-chrome:
     image: consol/sakuli-centos-xfce:v1.0.0
-#    image: consol/sakuli-ubuntu-xfce:v1.0.0
     ports:
     - 5911:5901
     - 6911:6901
     volumes:
     - .:/opt/tests
-#    command: ["run /opt/tests/bakery-blueberry -browser chrome"]
-    command: ["run /opt/tests/bakery-blueberry -browser firefox"]
+    command: ["run /opt/tests/bakery-blueberry -browser chrome"]
     external_links:
     - bakery-web-server
     - bakery-report-server
 
-local-sakuli-test-caramel:
-#    image: consol/sakuli-ubuntu-xfce:v1.0.0
+local-sakuli-test-caramel-chrome:
     image: consol/sakuli-centos-xfce:v1.0.0
     ports:
     - 5912:5901
@@ -21,7 +18,30 @@ local-sakuli-test-caramel:
     volumes:
     - .:/opt/tests
     command: ["run /opt/tests/bakery-caramel -browser chrome"]
-#    command: ["run /opt/tests/bakery-caramel -browser firefox"]
     external_links:
     - bakery-web-server
     - bakery-report-server
+
+local-sakuli-test-blueberry-firefox:
+    image: consol/sakuli-centos-xfce:v1.0.0
+    ports:
+    - 5913:5901
+    - 6913:6901
+    volumes:
+    - .:/opt/tests
+    command: ["run /opt/tests/bakery-blueberry -browser firefox"]
+    external_links:
+    - bakery-web-server2:bakery-web-server
+    - bakery-report-server2:bakery-report-server
+
+local-sakuli-test-caramel-firefox:
+    image: consol/sakuli-centos-xfce:v1.0.0
+    ports:
+    - 5914:5901
+    - 6914:6901
+    volumes:
+    - .:/opt/tests
+    command: ["run /opt/tests/bakery-caramel -browser firefox"]
+    external_links:
+    - bakery-web-server2:bakery-web-server
+    - bakery-report-server2:bakery-report-serverr

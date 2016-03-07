@@ -24,8 +24,8 @@ jenkins-sakuli-test-blueberry-firefox:
     container_name: jenkins-sakuli-test-blueberry-firefox
     build: .
     ports:
-    - 5911:5901
-    - 6911:6901
+    - 5913:5901
+    - 6913:6901
     command: ["run /opt/tests/bakery-blueberry -browser firefox"]
     external_links:
     - bakery-web-server2:bakery-web-server
