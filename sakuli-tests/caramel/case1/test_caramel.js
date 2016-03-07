@@ -30,23 +30,23 @@ try {
     checkChrome();
     checkUbuntuOS();
     cleanupReport("Reset caramel");
-    testCase.endOfStep("clean report server", 5);
+    testCase.endOfStep("clean report server", 10);
 
     _navigateTo($bakeryURL);
     moveAmountSlider();
-    testCase.endOfStep("move amount slider", 20);
+    testCase.endOfStep("move amount slider", 25);
 
     placeCaramelOrder();
-    testCase.endOfStep("place orders", 10);
+    testCase.endOfStep("place orders", 15);
 
     _navigateTo($reportURL);
     validateHtmlReportView();
-    testCase.endOfStep("validate report amount", 10);
+    testCase.endOfStep("validate report amount", 15);
 
     //open print preview and validate it
     validatePrintPreview();
     env.sleep($sleep4Prasentation);
-    testCase.endOfStep("validate print preview", 15);
+    testCase.endOfStep("validate print preview", 20);
 
 
 } catch (e) {
@@ -134,7 +134,7 @@ function validatePrintPreview() {
         env.type("p", Key.CTRL);
     }
     env.setSimilarity(0.8);
-    screen.waitForImage("report_header.png", 5).highlight();
+    screen.waitForImage("report_header.png", 10).highlight();
     screen.find("print_pic_caramel.png").highlight();
     var caramelRegion = screen.find("report_caramel.png").highlight();
     var caramelValueRegion = caramelRegion.below(100).highlight().find("report_value_120.png").highlight();

@@ -6,7 +6,7 @@ activemq-broker:
 
 bakery-web-server:
   container_name: bakery-web-server
-  image: consol/bakery-web-app
+  image: consol/bakery-web-app:javaland
 #  ports:
 #  - 18001:8080
   links:
@@ -20,13 +20,13 @@ bakery-web-server:
 
 bakery-report-server:
   container_name: bakery-report-server
-  image: consol/bakery-report
+  image: consol/bakery-report:javaland
 #  ports:
 #  - 18002:8080
 
 bakery-worker-chocolate:
   container_name: bakery-worker-chocolate
-  image: consol/bakery-worker
+  image: consol/bakery-worker:javaland
   links:
   - bakery-report-server:report
   - activemq-broker:activemq
@@ -38,7 +38,7 @@ bakery-worker-chocolate:
 
 bakery-worker-blueberry:
   container_name: bakery-worker-blueberry
-  image: consol/bakery-worker
+  image: consol/bakery-worker:javaland
   links:
   - bakery-report-server:report
   - activemq-broker:activemq
@@ -50,7 +50,7 @@ bakery-worker-blueberry:
 
 bakery-worker-caramel:
   container_name: bakery-worker-caramel
-  image: consol/bakery-worker
+  image: consol/bakery-worker:javaland
   links:
   - bakery-report-server:report
   - activemq-broker:activemq

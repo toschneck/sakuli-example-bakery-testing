@@ -24,23 +24,23 @@ var screen = new Region();
 var $sleep4Prasentation = 0;
 var $bakeryURL = "http://bakery-web-server:8080/bakery/";
 var $reportURL = "http://bakery-report-server:8080/report/";
-var $countOfClicks = 3;
+var $countOfClicks = 2;
 
 try {
     checkChrome();
     checkUbuntuOS();
-    cleanupReport("Reset blueberry");
+    cleanupReport("Reset chocolate");
     testCase.endOfStep("clean report server", 10);
 
-
     _navigateTo($bakeryURL);
-    adjustAmount();
+    moveAmountSlider();
     testCase.endOfStep("move amount slider", 25);
-    placeBlueberryOrders();
+
+    placeChocolateOrder();
     testCase.endOfStep("place orders", 15);
 
     _navigateTo($reportURL);
-    validateWebReport();
+    validateHtmlReportView();
     testCase.endOfStep("validate report amount", 15);
 
     //open print preview and validate it
@@ -56,6 +56,7 @@ try {
     testCase.saveResult();
 }
 
+
 function checkChrome() {
     if (_isChrome()) {
         Logger.logInfo('Detected browser: Chorme  >> override some image patterns');
@@ -70,50 +71,57 @@ function checkUbuntuOS() {
         testCase.addImagePaths("ubuntu");
         if (_isChrome()) {
             testCase.addImagePaths("ubuntu/chrome");
+
         }
     }
 }
 
-function adjustAmount() {
-    var bubble = screen.waitForImage("bubble.png", 10).highlight();
-    bubble.dragAndDropTo(bubble.right(30).highlight());
 
-    //assert value of bubble is 20
-    _assertEqual(20, Number(_getText(_div("slider slider-horizontal"))));
-    for (i = 0; i < $countOfClicks; i++) {
-        env.sleep($sleep4Prasentation);
-        _highlight(_submit("Place order"));
-        _click(_submit("Place order"));
-    }
+function cleanupReport($linkname) {
+    _navigateTo($reportURL);
+    clickHighlight(_link($linkname));
 }
 
 
-function placeBlueberryOrders() {
+function moveAmountSlider() {
+    var bubble = screen.waitForImage("bubble.png",10).highlight();
+    bubble.dragAndDropTo(bubble.left(35).highlight());
+    //assert value of bubble is 30
+    _assertEqual(10, Number(_getText(_div("slider slider-horizontal"))));
+
+}
+
+
+function placeChocolateOrder() {
+    clickHighlight(_label("chocolate"));
+    for (i = 0; i < $countOfClicks; i++) {
+        env.sleep($sleep4Prasentation);
+        clickHighlight(_submit("Place order"));
+    }
+
     env.sleep($sleep4Prasentation);
-    var $bluberryIdentifier = /Submitted 'blueberry' order.*/;
-    _isVisible(_span($bluberryIdentifier));
-    var $submittedSpans = _collect("_span", $bluberryIdentifier);
+    var $submittedSpans = _collect("_span", /Submitted 'chocolate' order.*/);
 
     _assertEqual($countOfClicks, $submittedSpans.length);
     $submittedSpans.forEach(function ($span) {
         _highlight($span);
+        _isVisible($span);
     });
 }
 
 
-function validateWebReport() {
+function validateHtmlReportView() {
     _highlight(_heading1("Cookie Bakery Reporting"));
-    _highlight(_link("Reload"));
-    _click(_link("Reload"));
-    _highlight(_span("blueberry"));
+    clickHighlight(_link("Reload"));
+    _highlight(_span("chocolate"));
 
-    var $blueberryIdentifier = _div("progress-bar[1]");
-    _highlight($blueberryIdentifier);
-    var $blueberryVal = _getText($blueberryIdentifier);
-    Logger.logInfo("blueberry:" + $blueberryVal);
-    _assertEqual($countOfClicks * 20, Number($blueberryVal), "Number of blueberry orders does not fit!");
+    var $chocolateReportIdentifier = _div("progress-bar[0]");
+    _highlight($chocolateReportIdentifier);
+    var $chocolateValue = _getText($chocolateReportIdentifier);
+    Logger.logInfo("chocolate:" + $chocolateValue);
+    _assertEqual($countOfClicks * 10, Number($chocolateValue), "Number of chocolate orders does not fit!");
     //also do screen varification
-    screen.find("pic_blueberries.png").grow(50).highlight().find("web_blueberry_60.png").highlight();
+    screen.find("pic_chocolate.png").grow(50).highlight().find("web_chocolate_20.png").highlight();
     env.sleep($sleep4Prasentation);
 }
 
@@ -126,16 +134,16 @@ function validatePrintPreview() {
     }
     env.setSimilarity(0.8);
     screen.waitForImage("report_header.png", 10).highlight();
-    screen.find("print_pic_blueberries.png").highlight();
-    var blueberryRegion = screen.find("report_blueberry.png").highlight();
-    var blueberryValueRegion = blueberryRegion.below(100).highlight().find("report_value_60.png").highlight();
+    screen.find("report_pic_chocolate.png").highlight();
+    var chocolateRegion = screen.find("report_chocolate.png").highlight();
+    var chocolateValueRegion = chocolateRegion.below(100).highlight().find("report_value_20.png").highlight();
 
-    var ocrValue = blueberryValueRegion.extractText();   //experimental works only on a few font arts
-    Logger.logInfo("blueberry value: " + ocrValue);
+    var ocrValue = chocolateValueRegion.extractText();   //experimental works only on a few font arts
+    Logger.logInfo("chocolate value: " + ocrValue);
 }
 
-function cleanupReport($linkname) {
-    _navigateTo($reportURL);
-    _highlight(_link($linkname));
-    _click(_link($linkname));
+
+function clickHighlight($selector) {
+    _highlight($selector);
+    _click($selector);
 }

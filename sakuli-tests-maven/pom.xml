@@ -13,9 +13,8 @@
 
     <properties>
         <docker.image.os>centos</docker.image.os>
-        <docker.image.sakuli>consol/sakuli-${docker.image.os}-xfce:dev</docker.image.sakuli>
-        <docker.alias.sakuli.test1>${docker.alias.prefix}sakuli-test-blueberry</docker.alias.sakuli.test1>
-        <docker.alias.sakuli.test2>${docker.alias.prefix}sakuli-test-caramel</docker.alias.sakuli.test2>
+        <docker.image.sakuli>consol/sakuli-${docker.image.os}-xfce:v1.0.0</docker.image.sakuli>
+        <docker.alias.sakuli.test>${docker.alias.prefix}sakuli-test-blueberry</docker.alias.sakuli.test>
     </properties>
 
     <build>
@@ -34,8 +33,8 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <alias>${docker.alias.sakuli.test1}</alias>
-                                    <name>${docker.image.sakuli}</name>
+                                    <alias>${docker.alias.sakuli.test}</alias>
+                                    <name>{docker.alias.prefix}sakuli-test-blueberry</name>
                                 </image>
                             </images>
                         </configuration>
@@ -50,8 +49,8 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <alias>${docker.alias.sakuli.test1}</alias>
-                                    <name>${docker.alias.prefix}sakuli-test-bakery</name>
+                                    <alias>${docker.alias.sakuli.test}</alias>
+                                    <name>${docker.alias.prefix}sakuli-test-blueberry</name>
                                     <build>
                                         <from>${docker.image.sakuli}</from>
                                         <assembly>
@@ -64,30 +63,7 @@
                                             <link>${docker.alias.report-server}:bakery-report-server</link>
                                             <link>${docker.alias.web-server}:bakery-web-server</link>
                                         </links>
-                                        <cmd>run /maven/sakuli-tests/bakery-blueberry</cmd>
-                                        <ports>
-                                            <port>691${docker.vnc.port}:6901</port>
-                                        </ports>
-                                        <wait>
-                                            <log>SAKULI_RETURN_VAL: 0</log>
-                                            <time>110000</time>
-                                        </wait>
-                                        <log>
-                                            <enabled>true</enabled>
-                                            <color>YELLOW</color>
-                                        </log>
-                                    </run>
-                                </image>
-                                <image>
-                                    <alias>${docker.alias.sakuli.test2}</alias>
-                                    <name>${docker.alias.prefix}sakuli-test-bakery</name>
-                                    <run>
-                                        <namingStrategy>alias</namingStrategy>
-                                        <links>
-                                            <link>${docker.alias.report-server}:bakery-report-server</link>
-                                            <link>${docker.alias.web-server}:bakery-web-server</link>
-                                        </links>
-                                        <cmd>run /maven/sakuli-tests/bakery-caramel</cmd>
+                                        <cmd>run /maven/sakuli-tests/blueberry</cmd>
                                         <ports>
                                             <port>691${docker.vnc.port}:6901</port>
                                         </ports>

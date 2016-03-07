@@ -34,7 +34,7 @@
         <report.server.host>${docker.host.name}</report.server.host>
 
         <!-- docker image names -->
-        <docker.image.tag>javaland1</docker.image.tag>
+        <docker.image.tag>javaland</docker.image.tag>
         <docker.image.name.web-server>consol/bakery-web-app:${docker.image.tag}</docker.image.name.web-server>
         <docker.image.name.report-server>consol/bakery-report:${docker.image.tag}</docker.image.name.report-server>
         <docker.image.name.worker>consol/bakery-worker:${docker.image.tag}</docker.image.name.worker>

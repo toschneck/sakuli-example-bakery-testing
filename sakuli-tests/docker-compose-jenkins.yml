@@ -1,10 +1,10 @@
-jenkins-sakuli-test-blueberry-chrome:
+jenkins-sakuli-test-blueberry-firefox:
     container_name: jenkins-sakuli-test-blueberry-chrome
     build: .
     ports:
     - 5911:5901
     - 6911:6901
-    command: ["run /opt/tests/blueberry -browser chrome"]
+    command: ["run /opt/tests/blueberry -browser firefox"]
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -20,24 +20,25 @@ jenkins-sakuli-test-caramel-chrome:
     - bakery-web-server
     - bakery-report-server
 
-jenkins-sakuli-test-blueberry-firefox:
+jenkins-sakuli-test-chocolate-firefox:
     container_name: jenkins-sakuli-test-blueberry-firefox
     build: .
     ports:
     - 5913:5901
     - 6913:6901
-    command: ["run /opt/tests/blueberry -browser firefox"]
+    command: ["run /opt/tests/chocolate -browser firefox"]
     external_links:
-    - bakery-web-server:bakery-web-server
-    - bakery-report-server:bakery-report-server
+    - bakery-web-server
+    - bakery-report-server
 
-jenkins-sakuli-test-caramel-firefox:
-    container_name: jenkins-sakuli-test-caramel-firefox
+jenkins-sakuli-test-order-pdf:
+    container_name: jenkins-sakuli-test-order-pdf
     build: .
     ports:
     - 5914:5901
     - 6914:6901
-    command: ["run /opt/tests/caramel -browser firefox"]
+     # this case is only designed for the chrome pdf generating function
+    command: ["run /opt/tests/order-pdf -browser chrome"]
     external_links:
-    - bakery-web-server:bakery-web-server
-    - bakery-report-server:bakery-report-server
+    - bakery-web-server
+    - bakery-report-server

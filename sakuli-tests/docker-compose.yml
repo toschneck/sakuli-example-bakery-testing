@@ -1,11 +1,11 @@
-local-sakuli-test-blueberry-chrome:
+local-sakuli-test-blueberry-firefox:
     image: consol/sakuli-centos-xfce:v1.0.0
     ports:
     - 5911:5901
     - 6911:6901
     volumes:
     - .:/opt/tests
-    command: ["run /opt/tests/blueberry -browser chrome"]
+    command: ["run /opt/tests/blueberry -browser firefox"]
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -17,31 +17,32 @@ local-sakuli-test-caramel-chrome:
     - 6912:6901
     volumes:
     - .:/opt/tests
-    command: ["run /opt/tests/bakery-caramel -browser chrome"]
+    command: ["run /opt/tests/caramel -browser chrome"]
     external_links:
     - bakery-web-server
     - bakery-report-server
 
-local-sakuli-test-blueberry-firefox:
+local-sakuli-test-chocolate-firefox:
     image: consol/sakuli-centos-xfce:v1.0.0
     ports:
     - 5913:5901
     - 6913:6901
     volumes:
     - .:/opt/tests
-    command: ["run /opt/tests/blueberry -browser firefox"]
+    command: ["run /opt/tests/chocolate -browser firefox"]
     external_links:
-    - bakery-web-server2:bakery-web-server
-    - bakery-report-server2:bakery-report-server
+    - bakery-web-server
+    - bakery-report-server
 
-local-sakuli-test-caramel-firefox:
+local-sakuli-test-order-pdf:
     image: consol/sakuli-centos-xfce:v1.0.0
     ports:
     - 5914:5901
     - 6914:6901
     volumes:
     - .:/opt/tests
-    command: ["run /opt/tests/bakery-caramel -browser firefox"]
+    # this case is only designed for the chrome pdf generating function
+    command: ["run /opt/tests/order-pdf -browser chrome"]
     external_links:
-    - bakery-web-server2:bakery-web-server
-    - bakery-report-server2:bakery-report-serverr
+    - bakery-web-server
+    - bakery-report-server
