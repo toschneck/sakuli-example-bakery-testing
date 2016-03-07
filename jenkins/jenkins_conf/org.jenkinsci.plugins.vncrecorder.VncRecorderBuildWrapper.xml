@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<org.jenkinsci.plugins.vncrecorder.VncRecorderBuildWrapper_-DescriptorImpl plugin="vncrecorder@1.25">
+  <vnc2swf>/Set/your/path/for/vnc2swf</vnc2swf>
+</org.jenkinsci.plugins.vncrecorder.VncRecorderBuildWrapper_-DescriptorImpl>
