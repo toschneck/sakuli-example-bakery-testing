@@ -7,11 +7,3 @@ wait:
     external_links:
     - bakery-web-server
     - bakery-report-server
-
-wait2:
-    container_name: wait-for-bakery-servers2
-    build: wait-for-server
-    command: "/root/wait-for-server.sh"
-    external_links:
-    - bakery-web-server2:bakery-web-server
-    - bakery-report-server2:bakery-report-server

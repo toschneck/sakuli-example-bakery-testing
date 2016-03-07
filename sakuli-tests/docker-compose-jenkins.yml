@@ -28,8 +28,8 @@ jenkins-sakuli-test-blueberry-firefox:
     - 6913:6901
     command: ["run /opt/tests/bakery-blueberry -browser firefox"]
     external_links:
-    - bakery-web-server2:bakery-web-server
-    - bakery-report-server2:bakery-report-server
+    - bakery-web-server:bakery-web-server
+    - bakery-report-server:bakery-report-server
 
 jenkins-sakuli-test-caramel-firefox:
     container_name: jenkins-sakuli-test-caramel-firefox
@@ -39,5 +39,5 @@ jenkins-sakuli-test-caramel-firefox:
     - 6914:6901
     command: ["run /opt/tests/bakery-caramel -browser firefox"]
     external_links:
-    - bakery-web-server2:bakery-web-server
-    - bakery-report-server2:bakery-report-server
+    - bakery-web-server:bakery-web-server
+    - bakery-report-server:bakery-report-server
