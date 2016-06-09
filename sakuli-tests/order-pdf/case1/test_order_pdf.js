@@ -17,15 +17,22 @@
  */
 
 _dynamicInclude($includeFolder);
-var testCase = new TestCase(60, 70);
+var testCase = new TestCase(80, 100);
 var env = new Environment();
 var screen = new Region();
+var appPDF;
 
 var $sleep4Prasentation = 1;
-var $bakeryURL = "http://bakery-web-server:8080/bakery/";
+var pdfFilePath = "/tmp/bakery.pdf";
 
 try {
-    checkUbuntuOS();
+    if (!_isChrome()) {
+        throw "this case is only designed for the chrome pdf generating function";
+    }
+    //include some shared functions
+    _dynamicInclude("../../_common/common.js");
+    loadPicsForEnvironment(testCase);
+    var $bakeryURL = bakeryURL();
     _navigateTo($bakeryURL);
 
     visibleHighlight(_heading1("Cookie Bakery Application"));
@@ -38,29 +45,37 @@ try {
             visibleHighlight($identifier);
         });
     env.sleep($sleep4Prasentation);
-    testCase.endOfStep("validate HTML view", 20);
+    testCase.endOfStep("validate HTML view", 30);
 
     //open print preview
     env.type("p", Key.CTRL);
 
 
     //rotate to landscape
-    screen.waitForImage("layout_label.png", 5).highlight()
+    screen.waitForImage("layout_label.png", 30).highlight()
         .right(140).highlight().click()
         .grow(0, 40)
         .find("landscape.png").click();
     env.sleep($sleep4Prasentation);
-    testCase.endOfStep("rotate to landscap", 15);
+    testCase.endOfStep("rotate to landscap", 30);
 
     //save as pdf
     screen.find("save_button").highlight().click();
     env.sleep($sleep4Prasentation);
-    env.type(Key.ENTER).sleep($sleep4Prasentation);
+    env.type("a", Key.CTRL) //mark filename in "save under" dialog
+        .type(pdfFilePath + Key.ENTER) //type filename and press ENTER
+        .sleep($sleep4Prasentation);
 
     //open pdf and validate
-    env.type("tl", Key.CTRL).paste(getPDFpath()).type(Key.ENTER);
+    // env.type("tl", Key.CTRL).paste(getPDFpath()).type(Key.ENTER);
+    appPDF = openPdfFile(pdfFilePath);
+    // openPdfFile(pdfFilePath);
     env.sleep($sleep4Prasentation);
-    screen.waitForImage("pdf_order_header", 5).highlight();
+    // var pdfEditorRegion = appPDF.getRegion();
+    // env.takeScreenshot("pdf_1.png");
+    // env.sleep($sleep4Prasentation);
+    // env.takeScreenshot("pdf_2.png");
+    screen.waitForImage("pdf_order_header", 30).highlight();
     [
         "pdf_blueberry",
         "pdf_caramel",
@@ -69,38 +84,14 @@ try {
     ].forEach(function (imgPattern) {
         screen.find(imgPattern).highlight();
     });
-    testCase.endOfStep("validate PDF output", 30);
+    testCase.endOfStep("validate PDF output", 50);
 
 } catch (e) {
     testCase.handleException(e);
+    // env.sleep(9999);
 } finally {
-    //env.sleep(9999);
+    if (undefined != appPDF) {
+        appPDF.kill(true);
+    }
     testCase.saveResult();
-}
-
-function getPDFpath() {
-    if(isUbuntu()){
-        return "file:///root/Documents/Cookie%20Bakery%20Application.pdf"
-    }
-    return "file:///root/Cookie%20Bakery%20Application.pdf";
-}
-
-function checkUbuntuOS() {
-    if (isUbuntu()) {
-        Logger.logInfo('Detected distribution: Ubuntu  >> override some image patterns');
-        testCase.addImagePaths("ubuntu");
-
-    }
-    if (!_isChrome()) {
-        throw "this test is onyl designed for the chrome printing function!"
-    }
-}
-
-function isUbuntu() {
-    return env.runCommand('cat /etc/os-release').getOutput().match(/NAME=.*Ubuntu.*/);
-}
-
-function visibleHighlight($selector) {
-    _isVisible($selector);
-    _highlight($selector);
 }

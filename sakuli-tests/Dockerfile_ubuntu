@@ -1,0 +1,13 @@
+FROM consol/sakuli-ubuntu-xfce:v1.0.1
+
+MAINTAINER Tobias Schneck "tobias.schneck@consol.de"
+ENV REFRESHED_AT 2016-03-04
+ENV TZ=Europe/Berlin
+
+## Install a PDF viewer
+RUN apt-get install -y libqt4-svg \
+    && wget -qO- http://get.code-industry.net/public/master-pdf-editor-3.7.10_amd64.tar.gz | tar xzs -C /root \
+    && ln -s /root/master-pdf-editor-3/masterpdfeditor3 /usr/bin/masterpdfeditor3
+
+## ADD is only need due to docker-in-docker jenkins can`t currently mount volumens
+ADD . /opt/tests

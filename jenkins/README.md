@@ -4,13 +4,12 @@
 
 ### automatic environment deployment
 
+    ./deploy_jenkins.sh
+   
 The automatic environment deploy script will do the following steps:
-1) adds all modified files to git and commits it
-2) pulls all changes from repo
-3) rebuild all containers
-4) stop and remove all running containers
-5) start the new containers
-6) push the changes to the git repo
+1) stop and remove all running containers
+2) rebuild all containers
+3) start the new containers
 
 ### manual environment deployment
 
@@ -47,6 +46,8 @@ Be aware that the jenkinsmaster image will create some stuff under the `jenkins_
 have to be able to rw on this directory. If the rights are not matching, you can modify the local user id with:
 `usermod -u 1000 <user_name>`
 
+* other solution is to give all users access, but __ATTENTION ALL USERS!__: `chmod -R a+rw jenkins_conf` 
+
   
 
 ### SSH-Key permissions
@@ -55,4 +56,3 @@ are not set correctly. Maybe you have to change the ownership and the permission
 
     chmod 600 labs-build/jenkins_conf/.ssh/*
     chown build:build -hR labs-build
-

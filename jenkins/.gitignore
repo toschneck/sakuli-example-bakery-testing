@@ -72,3 +72,4 @@ jenkins_conf/fingerprints
 jenkins_conf/config-history
 jenkins_conf/.owner
 jenkins_conf/queue.xml*
+jenkins_conf/jobs/*/nextBuildNumber

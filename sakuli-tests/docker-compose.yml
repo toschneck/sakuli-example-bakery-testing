@@ -1,48 +1,62 @@
-local-sakuli-test-blueberry-firefox:
-    image: consol/sakuli-centos-xfce:v1.0.0
+#### ENV variable will be set by script execute_compose_test.sh
+
+blueberry:
+    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
+    build: .
+    dockerfile: Dockerfile_$TEST_OS
+    cpuset: "0-1"
+    cpu_quota: 65000
     ports:
     - 5911:5901
     - 6911:6901
-    volumes:
-    - .:/opt/tests
-    command: ["run /opt/tests/blueberry -browser firefox"]
+    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
     external_links:
     - bakery-web-server
     - bakery-report-server
+    - $OMD_SERVER
 
-local-sakuli-test-caramel-chrome:
-    image: consol/sakuli-centos-xfce:v1.0.0
+caramel:
+    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
+    build: .
+    dockerfile: Dockerfile_$TEST_OS
+    cpuset: "0-1"
+    cpu_quota: 65000
     ports:
     - 5912:5901
     - 6912:6901
-    volumes:
-    - .:/opt/tests
-    command: ["run /opt/tests/caramel -browser chrome"]
+    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
     external_links:
     - bakery-web-server
     - bakery-report-server
+    - $OMD_SERVER
 
-local-sakuli-test-chocolate-firefox:
-    image: consol/sakuli-centos-xfce:v1.0.0
+chocolate:
+    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
+    build: .
+    dockerfile: Dockerfile_$TEST_OS
+    cpuset: "2-3"
+    cpu_quota: 65000
     ports:
     - 5913:5901
     - 6913:6901
-    volumes:
-    - .:/opt/tests
-    command: ["run /opt/tests/chocolate -browser firefox"]
+    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
     external_links:
     - bakery-web-server
     - bakery-report-server
+    - $OMD_SERVER
 
-local-sakuli-test-order-pdf:
-    image: consol/sakuli-centos-xfce:v1.0.0
+order-pdf:
+    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
+    build: .
+    dockerfile: Dockerfile_$TEST_OS
+    cpuset: "2-3"
+    cpu_quota: 65000
     ports:
     - 5914:5901
     - 6914:6901
-    volumes:
-    - .:/opt/tests
-    # this case is only designed for the chrome pdf generating function
-    command: ["run /opt/tests/order-pdf -browser chrome"]
+     # this case is only designed for the chrome pdf generating function
+    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
     external_links:
     - bakery-web-server
     - bakery-report-server
+    - $OMD_SERVER

@@ -1,6 +1,6 @@
-FROM jenkins:1.642.2
+FROM jenkins:2.3
 MAINTAINER Tobias Schneck "tobias.schneck@consol.de"
-ENV REFRESHED_AT 2016-03-04
+ENV REFRESHED_AT 2016-06-09
 
 USER root
 # Let's start with some basic stuff.
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 # Install Docker and docker-compose from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ | sh
 RUN usermod -aG docker jenkins
-RUN curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose \
+RUN curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
 
 # Install Oracle_JDK 7 & 8
@@ -27,7 +27,8 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-com
 
 #RUN add-apt-repository ppa:andrei-pozolotin/maven3 -y && apt-get update -y && apt-get install -y maven3
 RUN apt-get install -y openjdk-7-jdk groovy
-RUN curl http://www-eu.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz | tar xvz -C /opt
+RUN curl http://www-eu.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz | tar xvz -C /opt \
+    && ln -s /opt/apache-maven-3.3.9/bin/mvn /bin/mvn
 
 # Install the magic wrapper.
 #ADD wrapdocker.sh /usr/local/bin/wrapdocker

@@ -17,78 +17,68 @@
  */
 
 _dynamicInclude($includeFolder);
-var testCase = new TestCase(60, 70);
+var testCase = new TestCase(80, 100);
 var env = new Environment();
 var screen = new Region();
 
 var $sleep4Prasentation = 0;
-var $bakeryURL = "http://bakery-web-server:8080/bakery/";
-var $reportURL = "http://bakery-report-server:8080/report/";
 var $countOfClicks = 3;
 
 try {
-    checkChrome();
-    checkUbuntuOS();
+    //include some shared functions
+    _dynamicInclude("../../_common/common.js");
+    loadPicsForEnvironment(testCase);
+    var $bakeryURL = bakeryURL();
+    var $reportURL = reportURL();
+
     cleanupReport("Reset blueberry");
-    testCase.endOfStep("clean report server", 10);
+    testCase.endOfStep("clean report server", 20);
 
 
     _navigateTo($bakeryURL);
+    visibleHighlight(_paragraph("Place new orders:"));
     adjustAmount();
-    testCase.endOfStep("move amount slider", 25);
+    testCase.endOfStep("move amount slider", 40);
     placeBlueberryOrders();
-    testCase.endOfStep("place orders", 15);
+    testCase.endOfStep("place orders", 30);
 
     _navigateTo($reportURL);
     validateWebReport();
-    testCase.endOfStep("validate report amount", 15);
+    testCase.endOfStep("validate report amount", 30);
 
     //open print preview and validate it
     validatePrintPreview();
     env.sleep($sleep4Prasentation);
-    testCase.endOfStep("validate print preview", 20);
+    testCase.endOfStep("validate print preview", 40);
 
 
 } catch (e) {
     testCase.handleException(e);
+    // env.sleep(9999);
 } finally {
-    //env.sleep(9999);
     testCase.saveResult();
 }
 
-function checkChrome() {
-    if (_isChrome()) {
-        Logger.logInfo('Detected browser: Chorme  >> override some image patterns');
-        testCase.addImagePaths("chrome");
-    }
-}
-
-function checkUbuntuOS() {
-    var dist = env.runCommand('cat /etc/os-release').getOutput();
-    if (dist.match(/NAME=.*Ubuntu.*/)) {
-        Logger.logInfo('Detected distribution: Ubuntu  >> override some image patterns');
-        testCase.addImagePaths("ubuntu");
-        if (_isChrome()) {
-            testCase.addImagePaths("ubuntu/chrome");
-        }
-    }
-}
-
 function adjustAmount() {
-    var bubble = screen.waitForImage("bubble.png", 10).highlight();
-    bubble.dragAndDropTo(bubble.right(30).highlight());
+    env.setSimilarity(0.99);
+    _isVisible("slider-handle min-slider-handle round");
+    _assertEqual(15, Number(_getText(_div("slider slider-horizontal"))));
+
+    var bubble = new Region().waitForImage("bubble.png", 20);
+    bubble.dragAndDropTo(bubble.right(30)).highlight();
+    env.resetSimilarity();
 
     //assert value of bubble is 20
     _assertEqual(20, Number(_getText(_div("slider slider-horizontal"))));
+}
+
+
+function placeBlueberryOrders() {
     for (i = 0; i < $countOfClicks; i++) {
         env.sleep($sleep4Prasentation);
         _highlight(_submit("Place order"));
         _click(_submit("Place order"));
     }
-}
-
-
-function placeBlueberryOrders() {
     env.sleep($sleep4Prasentation);
     var $bluberryIdentifier = /Submitted 'blueberry' order.*/;
     _isVisible(_span($bluberryIdentifier));
@@ -97,6 +87,7 @@ function placeBlueberryOrders() {
     _assertEqual($countOfClicks, $submittedSpans.length);
     $submittedSpans.forEach(function ($span) {
         _highlight($span);
+        _isVisible($span);
     });
 }
 
@@ -119,23 +110,12 @@ function validateWebReport() {
 
 
 function validatePrintPreview() {
-    if (_isFF()) {
-        env.type("fv", Key.ALT);
-    } else {
-        env.type("p", Key.CTRL);
-    }
-    env.setSimilarity(0.8);
-    screen.waitForImage("report_header.png", 10).highlight();
+    openPrintPreview();
+    screen.waitForImage("report_header.png", 60).highlight();
     screen.find("print_pic_blueberries.png").highlight();
     var blueberryRegion = screen.find("report_blueberry.png").highlight();
     var blueberryValueRegion = blueberryRegion.below(100).highlight().find("report_value_60.png").highlight();
 
     var ocrValue = blueberryValueRegion.extractText();   //experimental works only on a few font arts
     Logger.logInfo("blueberry value: " + ocrValue);
-}
-
-function cleanupReport($linkname) {
-    _navigateTo($reportURL);
-    _highlight(_link($linkname));
-    _click(_link($linkname));
 }

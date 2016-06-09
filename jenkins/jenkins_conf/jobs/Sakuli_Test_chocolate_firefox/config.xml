@@ -31,7 +31,7 @@
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.2">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.5.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -40,7 +40,7 @@
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/hackathon</name>
+        <name>*/$SAKULI_EX_BRANCH</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -56,43 +56,21 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>CONTAINER_NAME=jenkins-sakuli-test-$TESTSUITE-$BROWSER
-echo &quot;start container: $CONTAINER_NAME&quot;
-
-COMPOSEFILE=&quot;sakuli-tests/docker-compose-jenkins.yml&quot;
-
-## start the sakuli test suite
-docker-compose -f $COMPOSEFILE kill $CONTAINER_NAME &amp;&amp; docker-compose -f $COMPOSEFILE rm -f $CONTAINER_NAME
-docker-compose -f $COMPOSEFILE build $CONTAINER_NAME
-docker-compose -f $COMPOSEFILE up $CONTAINER_NAME | tee $WORKSPACE/console.log;
-
-## save SAKULI_RETURN_VAL and interpret the result
-result=$(cat $WORKSPACE/console.log | grep SAKULI_RETURN_VAL | sed -n -e &apos;s/^.*SAKULI_RETURN_VAL: //p&apos;)
-echo $result
-
-## copy the runtime data to the workspace
-docker cp $CONTAINER_NAME:/opt/tests/$TESTSUITE/_logs $WORKSPACE/_logs
-
-if [ -z &quot;$result&quot; ]; then
-	echo &quot;UNEXPECTED result check the log&quot;
-    exit -1
-else 
-	exit $result
-fi</command>
+      <command>./sakuli-tests/execute_compose_test.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>_logs</artifacts>
-      <allowEmptyArchive>true</allowEmptyArchive>
+      <artifacts>_logs/**/*</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
-      <defaultExcludes>true</defaultExcludes>
-      <caseSensitive>true</caseSensitive>
+      <defaultExcludes>false</defaultExcludes>
+      <caseSensitive>false</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.29">
       <patterns>
         <hudson.plugins.ws__cleanup.Pattern>
           <pattern>**/_logs/</pattern>

@@ -22,74 +22,54 @@ var env = new Environment();
 var screen = new Region();
 
 var $sleep4Prasentation = 0;
-var $bakeryURL = "http://bakery-web-server:8080/bakery/";
-var $reportURL = "http://bakery-report-server:8080/report/";
 var $countOfClicks = 4;
 
 try {
-    checkChrome();
-    checkUbuntuOS();
+    //include some shared functions
+    _dynamicInclude("../../_common/common.js");
+    loadPicsForEnvironment(testCase);
+    var $bakeryURL = bakeryURL();
+    var $reportURL = reportURL();
+
     cleanupReport("Reset caramel");
-    testCase.endOfStep("clean report server", 10);
+    testCase.endOfStep("clean report server", 20);
 
     _navigateTo($bakeryURL);
+    visibleHighlight(_paragraph("Place new orders:"));
     moveAmountSlider();
-    testCase.endOfStep("move amount slider", 25);
+    testCase.endOfStep("move amount slider", 40);
 
     placeCaramelOrder();
-    testCase.endOfStep("place orders", 15);
+    testCase.endOfStep("place orders", 30);
 
     _navigateTo($reportURL);
     validateHtmlReportView();
-    testCase.endOfStep("validate report amount", 15);
+    testCase.endOfStep("validate report amount", 30);
 
     //open print preview and validate it
     validatePrintPreview();
     env.sleep($sleep4Prasentation);
-    testCase.endOfStep("validate print preview", 20);
+    testCase.endOfStep("validate print preview", 45);
 
 
 } catch (e) {
     testCase.handleException(e);
+    // env.sleep(9999);
 } finally {
-    //env.sleep(9999);
     testCase.saveResult();
 }
 
 
-function checkChrome() {
-    if (_isChrome()) {
-        Logger.logInfo('Detected browser: Chorme  >> override some image patterns');
-        testCase.addImagePaths("chrome");
-    }
-}
-
-function checkUbuntuOS() {
-    var dist = env.runCommand('cat /etc/os-release').getOutput();
-    if (dist.match(/NAME=.*Ubuntu.*/)) {
-        Logger.logInfo('Detected distribution: Ubuntu  >> override some image patterns');
-        testCase.addImagePaths("ubuntu");
-        if (_isChrome()) {
-            testCase.addImagePaths("ubuntu/chrome");
-
-        }
-    }
-}
-
-
-function cleanupReport($linkname) {
-    _navigateTo($reportURL);
-    clickHighlight(_link($linkname));
-}
-
-
 function moveAmountSlider() {
-    var bubble = screen.waitForImage("bubble.png",10).highlight();
-    bubble.dragAndDropTo(bubble.right(135).highlight());
+    env.setSimilarity(0.99);
+    _isVisible("slider-handle min-slider-handle round");
+    _assertEqual(15, Number(_getText(_div("slider slider-horizontal"))));
+
+    var bubble = new Region().waitForImage("bubble.png", 20);
+    bubble.dragAndDropTo(bubble.right(135)).highlight();
+    env.resetSimilarity();
     //assert value of bubble is 30
     _assertEqual(30, Number(_getText(_div("slider slider-horizontal"))));
-
-
 }
 
 
@@ -128,23 +108,12 @@ function validateHtmlReportView() {
 
 
 function validatePrintPreview() {
-    if (_isFF()) {
-        env.type("fv", Key.ALT);
-    } else {
-        env.type("p", Key.CTRL);
-    }
-    env.setSimilarity(0.8);
-    screen.waitForImage("report_header.png", 10).highlight();
+    openPrintPreview();
+    screen.waitForImage("report_header.png", 60).highlight();
     screen.find("print_pic_caramel.png").highlight();
     var caramelRegion = screen.find("report_caramel.png").highlight();
     var caramelValueRegion = caramelRegion.below(100).highlight().find("report_value_120.png").highlight();
 
     var ocrValue = caramelValueRegion.extractText();   //experimental works only on a few font arts
     Logger.logInfo("caramel value: " + ocrValue);
-}
-
-
-function clickHighlight($selector) {
-    _highlight($selector);
-    _click($selector);
 }

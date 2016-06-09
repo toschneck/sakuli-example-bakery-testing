@@ -13,6 +13,10 @@ rm -rvf updates
 rm -rvf war
 rm -rvf fingerprints
 rm -rvf jobs/**/modules
+rm -rvf jobs/**/builds
+rm -rvf jobs/**/last*
+rm -rvf jobs/**/workspace
+rm -rvf jobs/**/nextBuildNumber
 rm -rvf config-history
 rm -rvf .owner
 rm -rvf queue.xml*

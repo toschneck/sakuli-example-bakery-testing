@@ -2,6 +2,7 @@ jenkinsmaster:
   build: .
   ports:
     - 8080:8080
+  cpu_quota: 65000
   volumes:
     # mount the jenkins_configuraton folder
     - ./jenkins_conf:/var/jenkins_home
