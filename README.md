@@ -18,7 +18,7 @@ Lets build the
 sample Docker application images by calling:
 
 ```
-mvn clean package
+mvn -f bakery-app/pom.xml clean package
 ```
 
 Now you will be able to see some more docker images on your host.
@@ -44,40 +44,44 @@ You will see Docker containers running on your host:
 * worker-blueberry
 * worker-caramel
 
-### Using maven
-
-To lunch the application only, just use the maven module `app-deployment-maven`:
-
-```
-mvn -f app-deployment-maven/pom.xml clean verify
-```
-
-To execute the application and the Sakuli UI test in a glance, use the maven module `sakuli-tests-maven`:
-
-```
-mvn -f sakuli-tests-maven/pom.xml clean verify
-```
 
 ### Using docker-compose
-To lunch the hole application from scratch you have to use the docker-compose config lying under the folder `app-deployment-docker-compose/docker-compose.yml`:
+To lunch the hole application from scratch just execute the following script:
 
 ```
-cd app-deployment-docker-compose
-docker-compose kill && docker-compose rm -f && docker-compose build && docker-compose up -d
+bakery-app/app-deployment-docker-compose/deploy_app.sh
 ```
 
-After the bakery application is fully running, you can execute the sakuli E2E tests. The docker-compose config you will find under the folder`sakuli-tests/docker-compose.yml`:
+After the bakery application is fully running, you can execute the Sakuli E2E tests. The docker-compose config you will find under the folder `sakuli-tests/docker-compose.yml`. To start **all** tests in one glance just execute:
 
 ```
-cd ../sakuli-tests
-docker-compose kill && docker-compose rm -f && docker-compose build && docker-compose up
+sakuli-tests/execute_all.sh
+```
+To start **one** specific tests, you can define the environment variable `TESTSUITE` and execute the script `execute_compose_test.sh`:
+
+```
+TESTSUITE='order-pdf' sakuli-tests/execute_compose_test.sh
+```
+
+### Using maven
+
+To lunch the **application only**, just use the maven module `app-deployment-maven`:
+
+```
+mvn -f bakery-app/app-deployment-maven/pom.xml clean verify
+```
+
+To execute the **application and the Sakuli UI tests** in a glance, use the maven module `sakuli-tests-maven`:
+
+```
+mvn -f bakery-app/sakuli-tests-maven/pom.xml clean verify
 ```
 
 ### Watch into the Sakuli-Container via VNC
 
 Now you are able to watch the Sakuli tests running over VNC (Ports `5911 - 5914`) or over the web vnc client, open [vnc_overview_local.html](vnc_overview_local.html)
 
-![](vnc_bakery_test.png)
+![](.markdownpics/vnc_bakery_test.png)
 
 
 Starting the example via Jenkins CI:
@@ -86,20 +90,36 @@ This example also povides an Jenkins configured CI-Job to show how easily it is 
 start Jenkins via **docker-compose** and go to the site http://localhost:8080/.
 
 ```
-cd jenkins
-docker-compose kill && docker-compose rm -f && docker-compose build && docker-compose up -d
+jenkins/deploy_jenkins.sh
 ```
 
 After the Jenkins docker-container is running, you will be able to execute the Job [CI_docker_compose_bakery_application](http://localhost:8080/job/CI_docker_compose_bakery_application/)
 
-![](ci_sakuli_job.png)
+![](.markdownpics/ci_sakuli_job.png)
 
 For better visualization, go to the view `docker-compose` and look at build pipeline. There you will see, that the job
 [CI_docker_compose_bakery_application](http://localhost:8080/job/CI_docker_compose_bakery_application/) will start four sub-jobs starting with the name `Sakuli_Test*`.
 As long as the `Sakuli_Test*` are running, you can take again a look into the container via the VNC overview page [vnc_overview_local.html](vnc_overview_local.html).
 
-![](ci_build_pipeline.png)
+![](.markdownpics/ci_build_pipeline.png)
 
+Starting the example as continuous E2E monitoring check (OMD nagios)
+--------------------------------------------------------------------
+**1) start OMD monitoring server**
+
+```
+omd-nagios/deploy_omd.sh
+```
+Now open your browser and enter the URL http://localhost:8043/demo/thruk/#cgi-bin/status.cgi?host=all and you will find an overview over the 4 monitoring checks `blueberry`, `caramel`, `chocolate` and `order-pdf`. As soon the OMD server will get new results they will be displayed there.
+
+![](.markdownpics/omd-nagios.png)
+
+**2) start monitoring checks**
+
+```
+sakuli-tests/execute_all_4_monitoring.sh
+```
+The script will execute all four implemented Sakuli tests as monitoring checks and send the result to already running OMD server. The script will repeat the test execution after a break of 15 seconds as long as the script didn't get stopped. To stop the script execution simply press `CTRL + C`.
 
 - - -
 

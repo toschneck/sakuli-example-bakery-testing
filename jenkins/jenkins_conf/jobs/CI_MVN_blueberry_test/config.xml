@@ -9,7 +9,7 @@
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.2">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.5.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -40,6 +40,7 @@
     <hudson.tasks.Maven>
       <targets>clean package</targets>
       <mavenName>mvn</mavenName>
+      <pom>bakery-app/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
@@ -47,7 +48,7 @@
     <hudson.tasks.Maven>
       <targets>clean verify docker:stop</targets>
       <mavenName>mvn</mavenName>
-      <pom>sakuli-tests-maven/pom.xml</pom>
+      <pom>bakery-app/sakuli-tests-maven/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
@@ -55,7 +56,7 @@
   </builders>
   <publishers/>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.29">
       <deleteDirs>false</deleteDirs>
       <cleanupParameter>**/_logs/</cleanupParameter>
       <externalDelete></externalDelete>
