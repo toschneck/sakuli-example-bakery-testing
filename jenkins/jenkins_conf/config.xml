@@ -98,7 +98,7 @@
       <properties class="hudson.model.View$PropertyList"/>
       <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
         <firstJob>CI_00_docker_compose_bakery_app</firstJob>
-        <firstJobLink>view/All/job/CI_docker_compose_bakery_application/</firstJobLink>
+        <firstJobLink>job/CI_00_docker_compose_bakery_app/</firstJobLink>
       </gridBuilder>
       <noOfDisplayedBuilds>5</noOfDisplayedBuilds>
       <buildViewTitle></buildViewTitle>
@@ -127,7 +127,7 @@
           </default>
           <int>1</int>
           <string>SAKULI_EX_BRANCH</string>
-          <string>refactor</string>
+          <string>master</string>
         </tree-map>
       </envVars>
     </hudson.slaves.EnvironmentVariablesNodeProperty>

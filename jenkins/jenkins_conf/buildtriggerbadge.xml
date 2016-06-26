@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<org.jenkinsci.plugins.buildtriggerbadge.BuildTriggerBadgePlugin plugin="buildtriggerbadge@2.2">
+<org.jenkinsci.plugins.buildtriggerbadge.BuildTriggerBadgePlugin plugin="buildtriggerbadge@2.3">
   <activated>true</activated>
 </org.jenkinsci.plugins.buildtriggerbadge.BuildTriggerBadgePlugin>
