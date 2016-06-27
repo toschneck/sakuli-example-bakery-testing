@@ -1,5 +1,6 @@
 omd-nagios:
-    container_name: omd-nagios
+    container_name: omd-nagios-backup
+    # contains already some metrics from end of june
     image: toschneck/omd-nagios-demo:container-days
     ports:
     - 8044:80
@@ -7,4 +8,3 @@ omd-nagios:
     volumes:
     - /etc/localtime:/etc/localtime
     - ./config/sakuli_nagios_objects.cfg:/opt/omd/sites/demo/etc/nagios/conf.d/sakuli_nagios_objects.cfg
-#    command: ["/usr/bin/omd restart"]
