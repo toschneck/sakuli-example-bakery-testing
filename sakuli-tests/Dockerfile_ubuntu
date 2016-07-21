@@ -9,5 +9,8 @@ RUN apt-get install -y libqt4-svg \
     && wget -qO- http://get.code-industry.net/public/master-pdf-editor-3.7.10_amd64.tar.gz | tar xzs -C /root \
     && ln -s /root/master-pdf-editor-3/masterpdfeditor3 /usr/bin/masterpdfeditor3
 
+#temporay fix as long https://github.com/ConSol/docker-headless-vnc-container/issues/2 is not fixed
+RUN echo "CHROMIUM_FLAGS='--no-sandbox --start-maximized --user-data-dir'" > ~/.chromium-browser.init
+
 ## ADD is only need due to docker-in-docker jenkins can`t currently mount volumens
 ADD . /opt/tests

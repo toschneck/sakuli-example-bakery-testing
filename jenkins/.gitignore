@@ -50,6 +50,7 @@ crashlytics-build.properties
 
 jenkins_conf/queue.xml
 jenkins_conf/queue.xml.bak
+jenkins_conf/.cache
 jenkins_conf/.java/fonts
 jenkins_conf/jobs/*/builds
 jenkins_conf/jobs/*/lastStable
