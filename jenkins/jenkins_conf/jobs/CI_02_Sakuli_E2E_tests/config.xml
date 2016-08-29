@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
+  <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
@@ -21,7 +22,7 @@
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>Sakuli_Test_blueberry_firefox,Sakuli_Test_caramel_chrome,Sakuli_Test_chocolate_firefox,Sakuli_Test_order-pdf</projects>
+          <projects>Sakuli_Test_blueberry,Sakuli_Test_caramel,Sakuli_Test_chocolate,Sakuli_Test_order-pdf</projects>
           <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <block>
