@@ -21,7 +21,6 @@ var testCase = new TestCase(80, 100);
 var env = new Environment();
 var screen = new Region();
 
-var $sleep4Prasentation = 0;
 var $countOfClicks = 3;
 
 try {
@@ -30,6 +29,7 @@ try {
     loadPicsForEnvironment(testCase);
     var $bakeryURL = bakeryURL();
     var $reportURL = reportURL();
+    var $sleep4Prasentation = sleep4Prasentation();
 
     cleanupReport("Reset blueberry");
     testCase.endOfStep("clean report server", 20);
@@ -39,17 +39,18 @@ try {
     visibleHighlight(_paragraph("Place new orders:"));
     adjustAmount();
     testCase.endOfStep("move amount slider", 40);
+
     placeBlueberryOrders();
     testCase.endOfStep("place orders", 30);
 
     _navigateTo($reportURL);
-    validateWebReport();
+    validateHtmlReportView();
     testCase.endOfStep("validate report amount", 30);
 
     //open print preview and validate it
     validatePrintPreview();
     env.sleep($sleep4Prasentation);
-    testCase.endOfStep("validate print preview", 40);
+    testCase.endOfStep("validate print preview", 45);
 
 
 } catch (e) {
@@ -74,15 +75,14 @@ function adjustAmount() {
 
 
 function placeBlueberryOrders() {
+    clickHighlight(_label("blueberry"));
     for (i = 0; i < $countOfClicks; i++) {
         env.sleep($sleep4Prasentation);
-        _highlight(_submit("Place order"));
-        _click(_submit("Place order"));
+        clickHighlight(_submit("Place order"));
     }
+
     env.sleep($sleep4Prasentation);
-    var $bluberryIdentifier = /Submitted 'blueberry' order.*/;
-    _isVisible(_span($bluberryIdentifier));
-    var $submittedSpans = _collect("_span", $bluberryIdentifier);
+    var $submittedSpans = _collect("_span", /Submitted 'blueberry' order.*/);
 
     _assertEqual($countOfClicks, $submittedSpans.length);
     $submittedSpans.forEach(function ($span) {
@@ -92,10 +92,9 @@ function placeBlueberryOrders() {
 }
 
 
-function validateWebReport() {
+function validateHtmlReportView() {
     _highlight(_heading1("Cookie Bakery Reporting"));
-    _highlight(_link("Reload"));
-    _click(_link("Reload"));
+    clickHighlight(_link("Reload"));
     _highlight(_span("blueberry"));
 
     var $blueberryIdentifier = _div("progress-bar[1]");

@@ -22,7 +22,6 @@ var env = new Environment();
 var screen = new Region();
 var appPDF;
 
-var $sleep4Prasentation = 1;
 var pdfFilePath = "/tmp/bakery.pdf";
 
 try {
@@ -33,8 +32,9 @@ try {
     _dynamicInclude("../../_common/common.js");
     loadPicsForEnvironment(testCase);
     var $bakeryURL = bakeryURL();
-    _navigateTo($bakeryURL);
+    var $sleep4Prasentation = sleep4Prasentation();
 
+    _navigateTo($bakeryURL);
     visibleHighlight(_heading1("Cookie Bakery Application"));
 
     [

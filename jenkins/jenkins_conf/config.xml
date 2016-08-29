@@ -92,16 +92,37 @@
     </au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView>
     <au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView plugin="build-pipeline-plugin@1.5.3.1">
       <owner class="hudson" reference="../../.."/>
-      <name>docker-compose</name>
+        <name>CI Pipeline</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
       <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
         <firstJob>CI_00_docker_compose_bakery_app</firstJob>
-        <firstJobLink>job/CI_00_docker_compose_bakery_app/</firstJobLink>
       </gridBuilder>
       <noOfDisplayedBuilds>5</noOfDisplayedBuilds>
       <buildViewTitle></buildViewTitle>
+        <consoleOutputLinkStyle>New Window</consoleOutputLinkStyle>
+        <cssUrl></cssUrl>
+        <triggerOnlyLatestJob>true</triggerOnlyLatestJob>
+        <alwaysAllowManualTrigger>true</alwaysAllowManualTrigger>
+        <showPipelineParameters>false</showPipelineParameters>
+        <showPipelineParametersInHeaders>true</showPipelineParametersInHeaders>
+        <startsWithParameters>false</startsWithParameters>
+        <refreshFrequency>3</refreshFrequency>
+        <showPipelineDefinitionHeader>false</showPipelineDefinitionHeader>
+    </au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView>
+      <au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView plugin="build-pipeline-plugin@1.5.3.1">
+          <owner class="hudson" reference="../../.."/>
+          <name>Sakuli End-2-End-Tests only</name>
+          <filterExecutors>false</filterExecutors>
+          <filterQueue>false</filterQueue>
+          <properties class="hudson.model.View$PropertyList"/>
+          <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
+              <firstJob>CI_02_Sakuli_E2E_tests</firstJob>
+              <firstJobLink>view/Sakuli%20End-2-End-Tests%20only/job/CI_02_Sakuli_E2E_tests/</firstJobLink>
+          </gridBuilder>
+          <noOfDisplayedBuilds>5</noOfDisplayedBuilds>
+          <buildViewTitle>Sakuli End-2-End-Tests only</buildViewTitle>
       <consoleOutputLinkStyle>New Window</consoleOutputLinkStyle>
       <cssUrl></cssUrl>
       <triggerOnlyLatestJob>true</triggerOnlyLatestJob>

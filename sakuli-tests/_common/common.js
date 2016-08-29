@@ -9,6 +9,10 @@ function reportURL() {
     return "http://bakery-report-server:8080/report/";
 }
 
+function sleep4Prasentation() {
+    return 1;
+}
+
 function loadPicsForEnvironment(testCase) {
     testCase.addImagePaths(COMMON_PATH);
 
@@ -70,7 +74,7 @@ function cleanupReport($linkname) {
 function openPrintPreview() {
     new RegionRectangle(500, 500, 0, 0).mouseMove();
     if (_isFF()) {
-        env.type("fv", Key.ALT);
+        env.type("f", Key.ALT).type("v");
     } else {
         env.type("p", Key.CTRL);
     }

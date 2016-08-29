@@ -21,7 +21,6 @@ var testCase = new TestCase(60, 70);
 var env = new Environment();
 var screen = new Region();
 
-var $sleep4Prasentation = 0;
 var $countOfClicks = 4;
 
 try {
@@ -30,13 +29,15 @@ try {
     loadPicsForEnvironment(testCase);
     var $bakeryURL = bakeryURL();
     var $reportURL = reportURL();
+    var $sleep4Prasentation = sleep4Prasentation();
 
     cleanupReport("Reset caramel");
     testCase.endOfStep("clean report server", 20);
 
+
     _navigateTo($bakeryURL);
     visibleHighlight(_paragraph("Place new orders:"));
-    moveAmountSlider();
+    adjustAmount();
     testCase.endOfStep("move amount slider", 40);
 
     placeCaramelOrder();
@@ -59,8 +60,7 @@ try {
     testCase.saveResult();
 }
 
-
-function moveAmountSlider() {
+function adjustAmount() {
     env.setSimilarity(0.99);
     _isVisible("slider-handle min-slider-handle round");
     _assertEqual(15, Number(_getText(_div("slider slider-horizontal"))));
@@ -68,6 +68,7 @@ function moveAmountSlider() {
     var bubble = new Region().waitForImage("bubble.png", 20);
     bubble.dragAndDropTo(bubble.right(135)).highlight();
     env.resetSimilarity();
+
     //assert value of bubble is 30
     _assertEqual(30, Number(_getText(_div("slider slider-horizontal"))));
 }

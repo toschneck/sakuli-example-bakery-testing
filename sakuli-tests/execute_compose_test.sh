@@ -31,16 +31,19 @@ function checkDefaults(){
 
 function evaluateResult(){
     if [[ $dcarg = '-d' ]]; then exit 0; fi
-    ## copy the runtime data to the workspace
-    LOGFOLDER=$WORKSPACE/_logs
-    rm -rf $LOGFOLDER && mkdir $LOGFOLDER \
-        && docker cp $CONTAINER_NAME:/opt/tests/$TESTSUITE/_logs $LOGFOLDER/.. \
-        && cat $LOGFOLDER/_sakuli.log
+    ## copy the runtime data of the container to the workspace
+    CONTAINER_INSTANCE=$1
+    LOGFOLDER=$WORKSPACE/_logs/$1_$(date +%s)
+    LOGFILE=$LOGFOLDER/_logs/_sakuli.log
+    echo "LOGFOLDER: $LOGFOLDER, LOGFILE: $LOGFILE"
+    mkdir -p $LOGFOLDER \
+        && docker cp $CONTAINER_INSTANCE:/opt/tests/$TESTSUITE/_logs $LOGFOLDER \
+        && cat $LOGFILE
 
     ## save SAKULI_RETURN_VAL and interpret the result
     SAKULI_RESULT="not-determined"
-    ## grep last match of execution_finished
-    SAKULI_RESULT=$(tac $LOGFOLDER/_sakuli.log | grep 'execution FINISHED' -B2 -m1 $LOGFOLDER/_sakuli.log| sed -n -e 's/^.*execution FINISHED - \(\w*\) =.*/\1/p')
+    ## grep the LAST match of 'execution FINISHED -' and extract the result string from the $LOGFILE
+    SAKULI_RESULT=$(tac $LOGFILE | grep 'execution FINISHED' -B2 -m1 $LOGFILE| sed -n -e 's/^.*execution FINISHED - \(\w*\) =.*/\1/p')
 
     echo "SAKULI STATUS: $SAKULI_RESULT"
     if [[ "$SAKULI_RESULT" == "ERRORS" ]]; then
@@ -68,7 +71,7 @@ fi
 
 docker-compose -f $COMPOSE_FILE build $SERVICENAME \
     && docker-compose -f $COMPOSE_FILE up $dcarg $SERVICENAME  \
-    && evaluateResult
+    && evaluateResult $CONTAINER_NAME
 
 echo "unexpected error starting docker container '$CONTAINER_NAME' in docker-compose file '$COMPOSE_FILE'"
 exit -1

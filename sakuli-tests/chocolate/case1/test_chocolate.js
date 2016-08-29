@@ -21,7 +21,6 @@ var testCase = new TestCase(80, 100);
 var env = new Environment();
 var screen = new Region();
 
-var $sleep4Prasentation = 0;
 var $countOfClicks = 2;
 
 try {
@@ -30,13 +29,14 @@ try {
     loadPicsForEnvironment(testCase);
     var $bakeryURL = bakeryURL();
     var $reportURL = reportURL();
+    var $sleep4Prasentation = sleep4Prasentation();
+
     cleanupReport("Reset chocolate");
     testCase.endOfStep("clean report server", 20);
 
     _navigateTo($bakeryURL);
     visibleHighlight(_paragraph("Place new orders:"));
-    // env.sleep(99999);
-    moveAmountSlider();
+    adjustAmount();
     testCase.endOfStep("move amount slider", 40);
 
     placeChocolateOrder();
@@ -60,7 +60,7 @@ try {
 }
 
 
-function moveAmountSlider() {
+function adjustAmount() {
     env.setSimilarity(0.99);
     _isVisible("slider-handle min-slider-handle round");
     _assertEqual(15, Number(_getText(_div("slider slider-horizontal"))));
@@ -71,7 +71,6 @@ function moveAmountSlider() {
 
     //assert value of bubble is 10
     _assertEqual(10, Number(_getText(_div("slider slider-horizontal"))));
-
 }
 
 
@@ -107,6 +106,7 @@ function validateHtmlReportView() {
     screen.find("pic_chocolate.png").grow(50).highlight().find("web_chocolate_20.png").highlight();
     env.sleep($sleep4Prasentation);
 }
+
 
 function validatePrintPreview() {
     openPrintPreview();
