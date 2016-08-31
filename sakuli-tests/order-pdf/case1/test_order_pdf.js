@@ -67,14 +67,8 @@ try {
         .sleep($sleep4Prasentation);
 
     //open pdf and validate
-    // env.type("tl", Key.CTRL).paste(getPDFpath()).type(Key.ENTER);
     appPDF = openPdfFile(pdfFilePath);
-    // openPdfFile(pdfFilePath);
     env.sleep($sleep4Prasentation);
-    // var pdfEditorRegion = appPDF.getRegion();
-    // env.takeScreenshot("pdf_1.png");
-    // env.sleep($sleep4Prasentation);
-    // env.takeScreenshot("pdf_2.png");
     screen.waitForImage("pdf_order_header", 30).highlight();
     [
         "pdf_blueberry",
