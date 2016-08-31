@@ -1,7 +1,7 @@
 omd-nagios:
     container_name: omd-nagios-backup
     # contains already some metrics from end of june
-    image: toschneck/omd-nagios-demo:container-days
+    image: toschneck/omd-nagios-demo:herbstcampus
     ports:
     - 8044:80
     cpu_quota: 65000
