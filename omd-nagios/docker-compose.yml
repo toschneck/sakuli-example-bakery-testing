@@ -1,9 +1,9 @@
 omd-nagios:
     container_name: omd-nagios
-    image: consol/omd-labs-ubuntu-sakuli
+    image: consol/sakuli-omd-labs-ubuntu
     ports:
-    - 8043:80
+    - 8043:443
     cpu_quota: 65000
     volumes:
-    - /etc/localtime:/etc/localtime
-    - ./config/sakuli_nagios_objects.cfg:/opt/omd/sites/demo/etc/nagios/conf.d/sakuli_nagios_objects.cfg
+    - /etc/localtime:/etc/localtime                                                                                               v
+    - ./omd_ansible_drop-in_role/:/root/ansible/dropin_role
