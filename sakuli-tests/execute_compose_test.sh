@@ -30,7 +30,7 @@ function checkDefaults(){
 }
 
 function evaluateResult(){
-    if [[ $dcarg = '-d' ]]; then exit 0; fi
+    if [[ $SKIP_EVALUATE_RESULT = true ]]; then echo "skip result evaluation" && exit 0; fi
     ## copy the runtime data of the container to the workspace
     CONTAINER_INSTANCE=$1
     LOGFOLDER=$WORKSPACE/_logs/$1_$(date +%s)
@@ -66,11 +66,11 @@ if [[ $1 =~ kill ]]; then
     exit 0
 fi
 if [[ $1 = '-d' ]]; then
-    dcarg=$1
+    export SKIP_EVALUATE_RESULT=true
 fi
 
 docker-compose -f $COMPOSE_FILE build $SERVICENAME \
-    && docker-compose -f $COMPOSE_FILE up $dcarg $SERVICENAME  \
+    && docker-compose -f $COMPOSE_FILE up $@ $SERVICENAME  \
     && evaluateResult $CONTAINER_NAME
 
 echo "unexpected error starting docker container '$CONTAINER_NAME' in docker-compose file '$COMPOSE_FILE'"
