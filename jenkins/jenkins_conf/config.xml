@@ -98,6 +98,7 @@
       <properties class="hudson.model.View$PropertyList"/>
       <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
         <firstJob>CI_00_docker_compose_bakery_app</firstJob>
+          <firstJobLink>job/CI_00_docker_compose_bakery_app/</firstJobLink>
       </gridBuilder>
       <noOfDisplayedBuilds>5</noOfDisplayedBuilds>
       <buildViewTitle></buildViewTitle>
@@ -113,16 +114,38 @@
     </au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView>
       <au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView plugin="build-pipeline-plugin@1.5.3.1">
           <owner class="hudson" reference="../../.."/>
-          <name>Sakuli End-2-End-Tests only</name>
+          <name>Sakuli End-2-End-Tests only (parallel)</name>
           <filterExecutors>false</filterExecutors>
           <filterQueue>false</filterQueue>
           <properties class="hudson.model.View$PropertyList"/>
           <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
-              <firstJob>CI_02_Sakuli_E2E_tests</firstJob>
-              <firstJobLink>view/Sakuli%20End-2-End-Tests%20only/job/CI_02_Sakuli_E2E_tests/</firstJobLink>
+              <firstJob>CI_02_Sakuli_E2E_tests_parallel</firstJob>
           </gridBuilder>
           <noOfDisplayedBuilds>5</noOfDisplayedBuilds>
-          <buildViewTitle>Sakuli End-2-End-Tests only</buildViewTitle>
+          <buildViewTitle>Sakuli End-2-End-Tests only (parallel)</buildViewTitle>
+          <consoleOutputLinkStyle>New Window</consoleOutputLinkStyle>
+          <cssUrl></cssUrl>
+          <triggerOnlyLatestJob>true</triggerOnlyLatestJob>
+          <alwaysAllowManualTrigger>true</alwaysAllowManualTrigger>
+          <showPipelineParameters>false</showPipelineParameters>
+          <showPipelineParametersInHeaders>true</showPipelineParametersInHeaders>
+          <startsWithParameters>false</startsWithParameters>
+          <refreshFrequency>3</refreshFrequency>
+          <showPipelineDefinitionHeader>false</showPipelineDefinitionHeader>
+      </au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView>
+      <au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView plugin="build-pipeline-plugin@1.5.3.1">
+          <owner class="hudson" reference="../../.."/>
+          <name>Sakuli End-2-End-Tests only (sequential)</name>
+          <filterExecutors>false</filterExecutors>
+          <filterQueue>false</filterQueue>
+          <properties class="hudson.model.View$PropertyList"/>
+          <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
+              <firstJob>CI_02_Sakuli_E2E_tests_sequential</firstJob>
+              <firstJobLink>view/Sakuli%20End-2-End-Tests%20only%20(sequential)/job/CI_02_Sakuli_E2E_tests_sequential/
+              </firstJobLink>
+          </gridBuilder>
+          <noOfDisplayedBuilds>5</noOfDisplayedBuilds>
+          <buildViewTitle>Sakuli End-2-End-Tests only (sequential)</buildViewTitle>
       <consoleOutputLinkStyle>New Window</consoleOutputLinkStyle>
       <cssUrl></cssUrl>
       <triggerOnlyLatestJob>true</triggerOnlyLatestJob>

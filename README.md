@@ -110,7 +110,7 @@ Starting the example as continuous E2E monitoring check (OMD nagios)
 ```
 omd-nagios/deploy_omd.sh
 ```
-Now open your browser and enter the URL http://localhost:8043/demo/thruk/#cgi-bin/status.cgi?host=all and you will find an overview over the 4 monitoring checks `blueberry`, `caramel`, `chocolate` and `order-pdf`. As soon the OMD server will get new results they will be displayed there.
+Now open your browser and enter the URL https://localhost:8043/demo/thruk/#cgi-bin/status.cgi?host=all and you will find an overview over the 4 monitoring checks `blueberry`, `caramel`, `chocolate` and `order-pdf`. As soon the OMD server will get new results they will be displayed there.
 
 ![](.markdownpics/omd-nagios.png)
 
