@@ -68,7 +68,7 @@
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>CI_02_Sakuli_E2E_tests</projects>
+          <projects>CI_02_Sakuli_E2E_tests_parallel</projects>
           <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <block>
