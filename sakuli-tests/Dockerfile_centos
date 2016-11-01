@@ -1,7 +1,7 @@
-FROM consol/sakuli-centos-xfce:v1.0.1
+FROM consol/sakuli-centos-xfce:v1.0.2-SNAPSHOT
 
 MAINTAINER Tobias Schneck "tobias.schneck@consol.de"
-ENV REFRESHED_AT 2016-06-16
+ENV REFRESHED_AT 2016-11-02
 ENV TZ=Europe/Berlin
 
 ## Install a PDF viewer
