@@ -1,4 +1,4 @@
-FROM consol/sakuli-ubuntu-xfce:v1.0.2-SNAPSHOT
+FROM consol/sakuli-ubuntu-xfce:v1.0.2
 
 MAINTAINER Tobias Schneck "tobias.schneck@consol.de"
 ENV REFRESHED_AT 2016-11-02
