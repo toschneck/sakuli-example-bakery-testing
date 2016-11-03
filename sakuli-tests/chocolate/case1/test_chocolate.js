@@ -35,7 +35,7 @@ try {
     testCase.endOfStep("clean report server", 20);
 
     _navigateTo($bakeryURL);
-    visibleHighlight(_paragraph("Place new orders:"));
+    visibleHighlight(_paragraph("Place ERROR orders:"));
     adjustAmount();
     testCase.endOfStep("move amount slider", 40);
 
