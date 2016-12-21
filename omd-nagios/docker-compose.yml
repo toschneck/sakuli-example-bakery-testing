@@ -1,8 +1,8 @@
 omd-nagios:
     container_name: omd-nagios
-    image: consol/sakuli-omd-labs-ubuntu
+#    image: consol/sakuli-omd-labs-ubuntu
     # OMD with runtime data backup
-#    image: toschneck/omd-nagios-demo:container-conf
+    image: toschneck/omd-nagios-demo:container-conf
     ports:
     - 8043:443
     cpu_quota: 65000
