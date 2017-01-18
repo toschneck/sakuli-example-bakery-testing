@@ -1,6 +1,7 @@
 omd-nagios:
     container_name: omd-nagios
 #    image: consol/sakuli-omd-labs-ubuntu
+    # TODO TS use new image!
     # OMD with runtime data backup
     image: toschneck/omd-nagios-demo:container-conf
     ports:

@@ -1,6 +1,6 @@
 //some shared variables
 var COMMON_PATH = "../../_common";
-var PDF_EDITOR_NAME = "masterpdfeditor3";
+var PDF_EDITOR_NAME = "masterpdfeditor4";
 
 function bakeryURL() {
     return "http://bakery-web-server:8080/bakery/";
