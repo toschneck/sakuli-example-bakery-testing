@@ -7,7 +7,10 @@ ENV TZ=Europe/Berlin
 ## Install a PDF viewer
 RUN apt-get update && apt-get install -y libqt4-svg \
     && wget -qO- http://get.code-industry.net/public/master-pdf-editor-4.0.30_qt4.amd64.tar.gz | tar xzs -C /root \
-    && ln -s /root/master-pdf-editor-4/masterpdfeditor4 /usr/bin/masterpdfeditor4
+    && ln -s /root/master-pdf-editor-4/masterpdfeditor4 /usr/bin/masterpdfeditor4 \
+    && mkdir -p $HOME/.config/Code\ Industry \
+    && echo "[General]\ncheck_updates=0" >> $HOME/.config/Code\ Industry/Master\ PDF\ Editor.conf \
+    && apt-get clean -y
 
 ## ADD is only need due to docker-in-docker jenkins can`t currently mount volumens
 ADD . /opt/tests
