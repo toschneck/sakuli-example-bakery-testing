@@ -9,7 +9,7 @@ blueberry:
     ports:
     - 5911:5901
     - 6911:6901
-    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
+    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -24,7 +24,7 @@ caramel:
     ports:
     - 5912:5901
     - 6912:6901
-    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
+    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -39,7 +39,7 @@ chocolate:
     ports:
     - 5913:5901
     - 6913:6901
-    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
+    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
     external_links:
     - bakery-web-server
     - bakery-report-server
@@ -55,7 +55,7 @@ order-pdf:
     - 5914:5901
     - 6914:6901
      # this case is only designed for the chrome pdf generating function
-    command: ["run /opt/tests/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT"]
+    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
     external_links:
     - bakery-web-server
     - bakery-report-server
