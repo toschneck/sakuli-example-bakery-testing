@@ -5,7 +5,7 @@ ENV REFRESHED_AT 2016-11-02
 ENV TZ=Europe/Berlin
 
 ## Install a PDF viewer
-RUN yum install -y libsane-hpaio http://get.code-industry.net/public/master-pdf-editor-4.1.30_qt5.x86_64.rpm \
+RUN yum install -y libsane-hpaio http://get.code-industry.net/public/master-pdf-editor-4.2.30_qt5.x86_64.rpm \
     && yum clean all \
         && mkdir -p $HOME/.config/Code\ Industry \
         && echo "[General]" > $HOME/.config/Code\ Industry/Master\ PDF\ Editor.conf \
