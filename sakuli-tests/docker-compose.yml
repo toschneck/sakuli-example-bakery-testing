@@ -1,62 +1,38 @@
 #### ENV variable will be set by script execute_compose_test.sh
+version: '2'
 
-blueberry:
-    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
-    build: .
-    dockerfile: Dockerfile_$TEST_OS
-    cpuset: "0-1"
-    cpu_quota: 65000
-    ports:
-    - 5911:5901
-    - 6911:6901
-    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
-    external_links:
-    - bakery-web-server
-    - bakery-report-server
-    - $OMD_SERVER
+networks:
+  default:
+    external:
+      name: appdeploymentdockercompose_sakuli_network
 
-caramel:
-    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
-    build: .
-    dockerfile: Dockerfile_$TEST_OS
-    cpuset: "0-1"
-    cpu_quota: 65000
-    ports:
-    - 5912:5901
-    - 6912:6901
-    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
-    external_links:
-    - bakery-web-server
-    - bakery-report-server
-    - $OMD_SERVER
-
-chocolate:
-    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
-    build: .
-    dockerfile: Dockerfile_$TEST_OS
-    cpuset: "2-3"
-    cpu_quota: 65000
-    ports:
-    - 5913:5901
-    - 6913:6901
-    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
-    external_links:
-    - bakery-web-server
-    - bakery-report-server
-    - $OMD_SERVER
-
-order-pdf:
-    container_name: sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
-    build: .
-    dockerfile: Dockerfile_$TEST_OS
-    cpuset: "2-3"
-    cpu_quota: 65000
-    ports:
-    - 5914:5901
-    - 6914:6901
-     # this case is only designed for the chrome pdf generating function
-    command: run /headless/sakuli/test/$TESTSUITE -browser $BROWSER $ADD_ARGUMENT
-    external_links:
-    - bakery-web-server
-    - bakery-report-server
-    - $OMD_SERVER
+services:
+  ### define multiple instances
+  sakuli_1:
+      extends:
+        file: docker-compose.template.service.yml
+        service: sakuli_basic
+      ports:
+      - 5911:5901
+      - 6911:6901
+  sakuli_2:
+      extends:
+        file: docker-compose.template.service.yml
+        service: sakuli_basic
+      ports:
+      - 5912:5901
+      - 6912:6901
+  sakuli_3:
+      extends:
+        file: docker-compose.template.service.yml
+        service: sakuli_basic
+      ports:
+      - 5913:5901
+      - 6913:6901
+  sakuli_4:
+      extends:
+        file: docker-compose.template.service.yml
+        service: sakuli_basic
+      ports:
+      - 5914:5901
+      - 6914:6901

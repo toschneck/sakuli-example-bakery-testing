@@ -3,11 +3,17 @@
 #  WORKSPACE=~/sakuli-example-bakery-testing TESTSUITE=order-pdf BROWSER=chrome ./execute_compose_test.sh
 
 function checkDefaults(){
+    if [ -z $SERVICENAME ]; then
+        export SERVICENAME='sakuli_1'
+    fi
     if [ -z $TESTSUITE ]; then
         export TESTSUITE='blueberry'
     fi
     if [ -z $BROWSER ]; then
         export BROWSER='chrome'
+    fi
+    if [ -z $TESTSUITE_FOLDER ]; then
+        export TESTSUITE_FOLDER=/opt/sakuli-tests/$TESTSUITE
     fi
     if [ -z $TEST_OS ]; then
         export TEST_OS='ubuntu'
@@ -22,56 +28,54 @@ function checkDefaults(){
     if [ -z $ADD_ARGUMENT ]; then
         export ADD_ARGUMENT=''
     fi
-    if [ -z $OMD_SERVER ]; then
-        ### use bakery server as blank dummy
-        export OMD_SERVER='bakery-web-server:dummy'
+    if [[ $OMD_SERVER == "true" ]]; then
+        ### enable the gearman forwarder at sakuli clients
+        export ADD_ARGUMENT="$ADD_ARGUMENT -D sakuli.forwarder.gearman.enabled=true"
     fi
-    echo "TESTSUITE: $TESTSUITE, BROWSER: $BROWSER, TEST_OS:  $TEST_OS, WORKSPACE: $WORKSPACE, COMPOSE_FILE: $COMPOSE_FILE, ADD_ARGUMENT: $ADD_ARGUMENT, OMD_SERVER: $OMD_SERVER"
+    if [ -z $SKIP_COPY_LOGS ]; then
+        rm -rf $WORKSPACE/sakuli-tests/**/_logs
+    fi
+    echo "SERVICENAME: $SERVICENAME, TESTSUITE: $TESTSUITE, TESTSUITE_FOLDER: $TESTSUITE_FOLDER, WORKSPACE: $WORKSPACE, COMPOSE_FILE: $COMPOSE_FILE, ADD_ARGUMENT: $ADD_ARGUMENT"
 }
 
-function evaluateResult(){
-    if [[ $SKIP_EVALUATE_RESULT = true ]]; then echo "skip result evaluation" && exit 0; fi
+function copyLogs(){
+    if [[ $SKIP_COPY_LOGS = true ]]; then echo "skip copy logs" && exit 0; fi
     ## copy the runtime data of the container to the workspace
     CONTAINER_INSTANCE=$1
     LOGFOLDER=$WORKSPACE/_logs/$1_$(date +%s)
     LOGFILE=$LOGFOLDER/_logs/_sakuli.log
     echo "LOGFOLDER: $LOGFOLDER, LOGFILE: $LOGFILE"
     mkdir -p $LOGFOLDER \
-        && docker cp $CONTAINER_INSTANCE:/opt/tests/$TESTSUITE/_logs $LOGFOLDER \
+        && docker cp $CONTAINER_INSTANCE:$TESTSUITE_FOLDER/_logs $LOGFOLDER \
         && cat $LOGFILE
-
-    ## save SAKULI_RETURN_VAL and interpret the result
-    SAKULI_RESULT="not-determined"
-    ## grep the LAST match of 'execution FINISHED -' and extract the result string from the $LOGFILE
-    SAKULI_RESULT=$(tac $LOGFILE | grep 'execution FINISHED' -B2 -m1 $LOGFILE| sed -n -e 's/^.*execution FINISHED - \(\w*\) =.*/\1/p')
-
-    echo "SAKULI STATUS: $SAKULI_RESULT"
-    if [[ "$SAKULI_RESULT" == "ERRORS" ]]; then
-        exit -1
-    else
-        exit 0
-    fi
+    exit 0;
+    #TODO TS parse exit value for jenkins
 }
 
+function fixPermissions(){
+    var=$WORKSPACE/sakuli-tests
+    echo "fix permissions for: $var"
+    find "$var"/ -name '*.sh' -exec chmod  a+x {} +
+    find "$var"/ -name '*.desktop' -exec chmod  a+x {} +
+    chmod -R  a+rw "$var" && find "$var" -type d -exec chmod  a+x {} +
+}
 
 ### start the sakuli test suite
 checkDefaults
-CONTAINER_NAME=sakuli-test-$TESTSUITE-$BROWSER-$TEST_OS
-echo "start docker container ($TEST_OS): $CONTAINER_NAME"
+fixPermissions
+CONTAINER_NAME=sakuli-test-$TESTSUITE
+echo "start docker container: $CONTAINER_NAME"
 
-SERVICENAME=$TESTSUITE
-docker-compose -f $COMPOSE_FILE kill $SERVICENAME && docker-compose -f $COMPOSE_FILE rm -f  $SERVICENAME
-
+docker-compose -f $COMPOSE_FILE kill $SERVICENAME
 if [[ $1 =~ kill ]]; then
     exit 0
 fi
 if [[ $1 = '-d' ]]; then
-    export SKIP_EVALUATE_RESULT=true
+    export SKIP_COPY_LOGS=true
 fi
 
-docker-compose -f $COMPOSE_FILE build $SERVICENAME \
-    && docker-compose -f $COMPOSE_FILE up $@ $SERVICENAME  \
-    && evaluateResult $CONTAINER_NAME
+docker-compose -f $COMPOSE_FILE up --force-recreate --build $@ $SERVICENAME  \
+    && copyLogs $CONTAINER_NAME
 
 echo "unexpected error starting docker container '$CONTAINER_NAME' in docker-compose file '$COMPOSE_FILE'"
 exit -1

@@ -2,10 +2,9 @@
 cd $(dirname `which $0`)
 FOLDER=$(pwd)
 
-export ADD_ARGUMENT="-D sakuli.forwarder.gearman.enabled=true"
-export OMD_SERVER="omd-nagios"
 # skip the result evaluation - it will be done by the omd monitoring system
-export SKIP_EVALUATE_RESULT=true
+export SKIP_COPY_LOGS=true
+export OMD_SERVER="true"
 
 cleanup ()
 {
@@ -15,12 +14,13 @@ exit 0
 
 trap cleanup SIGINT SIGTERM
 
-### run each suite every 15 seconds, until CTRL + C
+### run each suite every x seconds, until CTRL + C
+SLEEP_SEC=5
 while [ 1 ]
 do
     $FOLDER/execute_all.sh &
     wait $!
-    echo "sleep 15 seconds"
-    sleep 15;
+    echo "sleep $SLEEP_SEC seconds"
+    sleep $SLEEP_SEC;
 done
 exit 0
