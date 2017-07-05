@@ -6,8 +6,11 @@ ENV TZ=Europe/Berlin
 
 ## Install a PDF viewer
 USER 0
-RUN yum install -y libsane-hpaio http://get.code-industry.net/public/master-pdf-editor-4.0.30_qt5.x86_64.rpm \
-    && yum clean all
+RUN yum install -y libsane-hpaio http://get.code-industry.net/public/master-pdf-editor-4.2.30_qt5.x86_64.rpm \
+    && yum clean all \
+        && mkdir -p $HOME/.config/Code\ Industry \
+        && echo "[General]" > $HOME/.config/Code\ Industry/Master\ PDF\ Editor.conf \
+        && echo "check_updates=0" >> $HOME/.config/Code\ Industry/Master\ PDF\ Editor.conf
 
 ## ADD is only need due to docker-in-docker jenkins can`t currently mount volumens
 ADD . $SAKULI_TEST_SUITE

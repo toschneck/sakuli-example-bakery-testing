@@ -22,29 +22,32 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-	body{
-	  background: url("bg_bottom_banner.png");
-      background-position: top right;
-      background-size: 15%;
-      background-repeat: no-repeat;
+        body {
+            background: url("docs/pics/bg_bottom_banner.png");
+            background-position: top right;
+            background-size: 15%;
+            background-repeat: no-repeat;
 
-	  font-family: 'Source Sans Pro', Arial, sans-serif;
-	  font-size:20px;
-	  font-weight: normal;
-	  color: #595959; 
-	  
-	  }
-	  table {
-		margin-left:auto;
-		margin-right:auto;
-	  }
-	a{
-		color: #595959;
-		text-decoration: none;		
-	}
-	.docker-blue{
-	color:  #327DAF;
-	}
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            font-size: 20px;
+            font-weight: normal;
+            color: #595959;
+
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        a {
+            color: #595959;
+            text-decoration: none;
+        }
+
+        .docker-blue {
+            color: #327DAF;
+        }
 
         .wrapper {
             width: 700px;
@@ -52,11 +55,13 @@
             padding: 0;
             overflow: hidden;
         }
+
         .scaled-frame {
             width: 1280px;
             height: 1100px;
             border: 0;
         }
+
         .scaled-frame {
             zoom: 0.5;
             -moz-transform: scale(0.5);
@@ -66,58 +71,69 @@
             -webkit-transform: scale(0.5);
             -webkit-transform-origin: 0 0;
         }
+
         @media screen and (-webkit-min-device-pixel-ratio: 0) {
             .scaled-frame {
                 zoom: 1;
             }
         }
     </style>
+    <script language="javascript" type="text/javascript">
+        var basicURL = [
+            'local',                                                //key
+            'http://yan',                                     //server
+            '/vnc_auto.html?password=sakuli&view_only=true',        //url post
+            'docker (local)',                                       //naming
+            '591',                                                 //vnc port
+            '691'];                                                //web vnc por
 
+        function getVncUrl(number) {
+            return basicURL[1] + ':' + basicURL[5] + number + basicURL[2];
+        }
+
+        initialize = function () {
+
+            function divForScreen(id) {
+                var newEl = document.createElement('div');
+                newEl.setAttribute('class', 'wrapper');
+                newEl.innerHTML = '<a target="_blank" href="' + getVncUrl(id) + '">' +
+                    '<b class="docker-blue">' + basicURL[3] + ' ' + id + '</b>' +
+                    ' (vnc_port ' + basicURL[4] + id + ', web_vnc_port: ' + basicURL[5] + id + ')' +
+                    '</a>' +
+                    '<iframe class="scaled-frame" src="' + getVncUrl(id) + '"></iframe>';
+                div.appendChild(newEl);
+                return newEl;
+            }
+            var div = document.getElementById("screen1");
+            div.appendChild(divForScreen(1));
+            div = document.getElementById("screen2");
+            div.appendChild(divForScreen(2));
+            div = document.getElementById("screen3");
+            div.appendChild(divForScreen(3));
+            div = document.getElementById("screen4");
+            div.appendChild(divForScreen(4));
+        }
+    </script>
 </head>
-<body>
-
-    <table>
-        <tr style="width: 100%">
-            <td>
-                <div class="wrapper">
-                    <a target="_blank" href="http://127.0.0.1:6911/vnc_auto.html?password=sakuli&view_only=true">
-                         <b class="docker-blue">docker_1</b> (vnc_port 5911, web_vnc_port: 6911)
-                    </a>
-                    <iframe class="scaled-frame"
-                            src="http://127.0.0.1:6911/vnc_auto.html?password=sakuli&view_only=true"></iframe>
-                </div>
-            </td>
-            <td>
-                <div class="wrapper">
-                    <a target="_blank" href="http://127.0.0.1:6912/vnc_auto.html?password=sakuli&view_only=true">
-                         <b class="docker-blue">docker_2</b> (vnc_port 5912, web_vnc_port: 6912)
-                    </a>
-                    <iframe class="scaled-frame"
-                            src="http://127.0.0.1:6912/vnc_auto.html?password=sakuli&view_only=true"></iframe>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="wrapper">
-                    <a target="_blank" href="http://127.0.0.1:6913/vnc_auto.html?password=sakuli&view_only=true">
-                         <b class="docker-blue">docker_3</b> (vnc_port 5913, web_vnc_port: 6913)
-                    </a>
-                    <iframe class="scaled-frame"
-                            src="http://127.0.0.1:6913/vnc_auto.html?password=sakuli&view_only=true"></iframe>
-                </div>
-            </td>
-            <td>
-                <div class="wrapper">
-                    <a target="_blank" href="http://127.0.0.1:6914/vnc_auto.html?password=sakuli&view_only=true">
-                        <b class="docker-blue">docker_4</b> (vnc_port 5914, web_vnc_port: 6914)
-                    </a>
-                    <iframe class="scaled-frame"
-                            src="http://127.0.0.1:6914/vnc_auto.html?password=sakuli&view_only=true"></iframe>
-                </div>
-            </td>
-        </tr>
-    </table>
+<body onload="initialize()">
+<table>
+    <tr style="width: 100%">
+        <td>
+            <div id="screen1"></div>
+        </td>
+        <td>
+            <div id="screen2"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="screen3"></div>
+        </td>
+        <td>
+            <div id="screen4"></div>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>
