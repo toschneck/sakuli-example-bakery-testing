@@ -22,13 +22,12 @@ if [[ $1 =~ stop ]]; then
 fi
 
 docker-compose -f $COMPOSEFILE kill || echo "kill running containers"
-docker-compose -f $COMPOSEFILE rm -f || echo "delete stoped containers"
 if [[ $1 =~ kill ]]; then
     exit 0
 fi
+
 ### build an startup application and  start the wait container to block until the web-applications are reachable
-docker-compose -f $COMPOSEFILE build \
-    && docker-compose -f $COMPOSEFILE up -d \
+docker-compose -f $COMPOSEFILE up --force-recreate --build -d \
     && exit 0
 
 echo "unexpected error starting OMD-Nagios containers from '$COMPOSEFILE'"
