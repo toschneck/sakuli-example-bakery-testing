@@ -1,4 +1,10 @@
 version: "2"
+
+networks:
+  default:
+    external:
+      name: appdeploymentdockercompose_sakuli_network
+
 services:
   omd-e2e-ser:
       container_name: omd-e2e-ser
@@ -9,13 +15,7 @@ services:
       cpu_quota: 65000
       mem_reservation: 400m
       mem_limit: 600MB
-      networks:
-      - sakuli_net
       volumes:
       - /opt/omd/sites/demo/local
       - /opt/omd/sites/demo/etc
       - /opt/omd/sites/demo/var
-#
-networks:
-  sakuli_net:
-    driver: bridge
