@@ -18,7 +18,7 @@
         <hudson.model.StringParameterDefinition>
           <name>BROWSER</name>
           <description></description>
-          <defaultValue>chrome</defaultValue>
+          <defaultValue>firefox</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
