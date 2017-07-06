@@ -60,7 +60,7 @@ function fixPermissions(){
 
 ### start the sakuli test suite
 checkDefaults
-fixPermissions
+#fixPermissions
 CONTAINER_NAME=sakuli-test-$TESTSUITE
 echo "start docker container: $CONTAINER_NAME"
 

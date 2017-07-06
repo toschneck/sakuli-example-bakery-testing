@@ -16,3 +16,5 @@ RUN yum install -y libsane-hpaio http://get.code-industry.net/public/master-pdf-
 ADD . $SAKULI_TEST_SUITE
 RUN $INST_SCRIPTS/set_user_permission.sh $SAKULI_TEST_SUITE
 USER 1984
+
+COPY . /opt/sakuli-tests

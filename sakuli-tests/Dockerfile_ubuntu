@@ -14,4 +14,6 @@ RUN apt-get update && apt-get install -y libqt5svg5 libqt5printsupport5\
     && apt-get clean -y
 USER 1984
 
+COPY . /opt/sakuli-tests
+
 
