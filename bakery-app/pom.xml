@@ -25,7 +25,7 @@
         <testng.version>6.9.6</testng.version>
         <slf4j.version>1.7.12</slf4j.version>
         <jolokia.version>1.3.1</jolokia.version>
-        <maven.plugin.docker.version>0.14.2</maven.plugin.docker.version>
+        <maven.plugin.docker.version>0.21.0</maven.plugin.docker.version>
 
         <application.server>tomcat-7.0</application.server>
         <message.broker>activemq-5.12</message.broker>
