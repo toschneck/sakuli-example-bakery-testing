@@ -8,25 +8,6 @@ parameters:
     description: 'Custom hostname for http service route.  Leave blank for default hostname, e.g.: <APP_NAME-name>-<project>.<default-domain-stuff>'
 objects:
 - apiVersion: v1
-  kind: ImageStream
-  metadata:
-    creationTimestamp: null
-    labels:
-      app: nexus
-    name: nexus
-  spec:
-    tags:
-    - annotations:
-        description: The Nexus Docker image
-        tags: nexus
-      from:
-        kind: DockerImage
-        name: sonatype/nexus
-      importPolicy: {}
-      name: latest
-      referencePolicy:
-        type: Local
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     creationTimestamp: null
@@ -118,48 +99,33 @@ objects:
   kind: Service
   metadata:
     annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
+      description: Service for nexus
     labels:
       app: nexus
     name: nexus
   spec:
     ports:
-    - name: 8081-tcp
-      port: 8081
+    - name: http-port
+      port: 80
       protocol: TCP
       targetPort: 8081
     selector:
       app: nexus
       deploymentconfig: nexus
-    sessionAffinity: None
-    type: ClusterIP
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
-      openshift.io/host.generated: "true"
-    creationTimestamp: null
+      description: Route for nexus
     labels:
       app: nexus
     name: nexus
   spec:
     host: ${HOSTNAME_HTTP}
-    port:
-      targetPort: 8081-tcp
     to:
-      kind: Service
       name: nexus
-      weight: 100
-    wildcardPolicy: None
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    annotations:
-    name: nexus-pv
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 1G
+    port:
+      targetPort: http-port
+#    tls:
+#      termination: passthrough
+#      wildcardPolicy: None
