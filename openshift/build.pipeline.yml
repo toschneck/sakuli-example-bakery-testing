@@ -1,0 +1,175 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: module-builds
+parameters:
+  - name: MODULE_NAME
+    required: true
+    value: 'bakery-test'
+  - name: GIT_URL
+    required: true
+    value: 'https://github.com/toschneck/sakuli-example-bakery-testing'
+  - name: GIT_BRANCH
+    required: true
+    value: 'pipeline'
+  - name: GIT_PATH
+    required: false
+    value: ''
+  - name: GITHUB_WEBHOOK_SECRET
+    description: GitHub trigger secret
+    from: '[a-zA-Z0-9]{8}'
+    generate: expression
+    required: true
+  - name: GENERIC_WEBHOOK_SECRET
+    description: Generic build trigger secret
+    from: '[a-zA-Z0-9]{8}'
+    generate: expression
+    required: true
+#  - name: BASE_IMAGE
+#    required: true
+#  - name: BASE_IMAGE_NAMESPACE
+#    required: true
+objects:
+#- apiVersion: v1
+#  kind: BuildConfig
+#  metadata:
+#    creationTimestamp: null
+#    labels:
+#      app: ${MODULE_NAME}
+#      xpaas: 1.3.2
+#      stage: dev
+#    name: ${MODULE_NAME}
+#  spec:
+#    nodeSelector: null
+#    output:
+#      to:
+#        kind: ImageStreamTag
+#        name: ${MODULE_NAME}:latest
+#    postCommit: {}
+#    resources: {}
+#    runPolicy: Serial
+#    source:
+#      git:
+#        ref: ${GIT_BRANCH}
+#        uri: ${GIT_URL}
+#      contextDir: ${GIT_PATH}
+#      sourceSecret:
+#        name: scm-secret
+#      type: Git
+#    strategy:
+#      sourceStrategy:
+#        env:
+#        - name: MAVEN_ARGS
+#          value: -B -DskipTests -s infra/maven-cd-settings.xml -e -Dcom.redhat.xpaas.repo.redhatga clean package
+#        forcePull: true
+#        from:
+#          kind: ImageStreamTag
+#          name: ${BASE_IMAGE}
+#          namespace: ${BASE_IMAGE_NAMESPACE}
+#        incremental: true
+#      type: Source
+#  status:
+#    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    name: ${MODULE_NAME}-ci
+    labels:
+      stage: dev
+  spec:
+    nodeSelector: {}
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        ref: ${GIT_BRANCH}
+        uri: ${GIT_URL}
+      contextDir: ${GIT_PATH}
+      type: Git
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfile: |-
+          MODULE_PATH='.'
+          node('maven') {
+            stage ('Checkout') {
+              git branch: '${GIT_BRANCH}', url: '${GIT_URL}'
+            }
+            stage ('build maven'){
+              sh "ls -la ${MODULE_PATH}"
+              sh "echo mvn -s openshift/infrastructur/maven-cd-settings.xml -f bakery-app/worker/pom.xml clean deploy "
+            }
+            stage ('build dockerimage') {
+              sh "openshift/bakery-app/deploy_bakery.sh build"
+            }
+            stage ('deploy worker') {
+              sh "openshift/bakery-app/deploy_bakery.sh"
+            }
+
+          }
+#            stage ('deploy'){
+#              openshiftDeploy(deploymentConfig: 'frontend')
+#            }
+#          stage ('checkout') {
+#            node {
+#                checkout scm
+#                sh "ls -la ${MODULE_PATH}"
+#                sh 'echo checkout'
+#            }
+#          }
+#          stage ('build') {
+#            node ('maven') {
+#              checkout scm
+#              sh "env"
+#              sh "ls -la ${MODULE_PATH}"
+#              sh "mvn -f bakery-app/worker/pom.xml package -Ddocker.useOpenShiftAuth"
+#            }
+#          }
+#          stage ('deploy') {
+#            node {
+#                checkout scm
+#                sh "ls -la ${MODULE_PATH}"
+#                sh 'echo deploy'
+#            }
+#          }
+##        jenkinsfilePath: jenkins-pipeline/Jenkinsfile
+    triggers:
+    - github:
+        secret: ${GITHUB_WEBHOOK_SECRET}
+      type: GitHub
+    - generic:
+        secret: ${GENERIC_WEBHOOK_SECRET}
+      type: Generic
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: ${MODULE_NAME}
+      xpaas: 1.3.2
+      stage: dev
+    name: ${MODULE_NAME}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+    labels:
+      role: jenkins-slave
+    name: maven
+  spec:
+#    dockerImageRepository: docker.io/openshift/jenkins-slave-maven-centos7
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker.io/openshift/jenkins-slave-maven-centos7
+      generation: 1
+      importPolicy:
+        scheduled: true
+      name: latest
