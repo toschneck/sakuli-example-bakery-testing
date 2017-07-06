@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: bakery-deploy
+metadata:
+  annotations:
+    description: Deploy bakery images
+    iconClass: icon-beaker
+    tags: consol
+    version: 1.1.0
+  creationTimestamp: null
+  name: bakery-deploy
+### template parameter defined via `oc process -f this.yaml -v PARAMETER=value`
+parameters:
+- name: APP_NAME
+  required: true
+  value: bakery-worker
+- name: IMAGE_STREAM
+  required: true
+  value: bakery-worker
+- name: APP_TYPE
+  required: true
+  value: chocolate
+- description: 'Custom hostname for http service route.  Leave blank for default hostname, e.g.: <APP_NAME-name>-<project>.<default-domain-suffix>'
+  name: HOSTNAME_HTTP
+- description: 'Generic build trigger secret'
+  name: GENERIC_WEBHOOK_SECRET
+  generate: expression
+  from: '[a-zA-Z0-9]{8}'
+  required: true
+### Configuration of OpenShift objects
+objects:
+### BUILD Config
+#see .build.yml
+#
+### POD deployment config
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      application: ${APP_NAME}
+    name: ${APP_NAME}-dc
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          application: ${APP_NAME}
+          dc: ${APP_NAME}-dc
+        name: ${APP_NAME}-pod
+      dnsPolicy: ClusterFirst
+      terminationGracePeriodSeconds: 10
+      spec:
+        containers:
+        - name: ${APP_NAME}-pod
+          imagePullPolicy: Always
+          env:
+          - name: FACTORY_TYPE
+            value: '${APP_TYPE}'
+          ### check gearman up
+#          livenessProbe:
+#            tcpSocket:
+#              port: 4730
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 10
+          ### checks web interface up
+#          readinessProbe:
+#            httpGet:
+#              path: /demo
+#              port: 443
+#              scheme: HTTPS
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 5
+    triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APP_NAME}-pod
+        from:
+          kind: ImageStreamTag
+          name: ${IMAGE_STREAM}:latest
+    - type: ConfigChange
+### Service -> POD config
+
