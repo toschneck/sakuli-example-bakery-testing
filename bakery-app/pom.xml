@@ -372,4 +372,16 @@
             </properties>
         </profile>
     </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <url>http://nexus:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexusSnap</id>
+            <url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
