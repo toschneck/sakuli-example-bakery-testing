@@ -128,32 +128,41 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <images>
-                        <!-- base image for different worker instances -->
-                        <image>
-                            <name>${docker.image.name.worker}</name>
-                            <alias>${docker.alias.worker.base}</alias>
-                            <build>
-                                <from>jolokia/java-jolokia:7</from>
-                                <assembly>
-                                    <descriptorRef>artifact-with-dependencies</descriptorRef>
-                                </assembly>
-                                <env>
-                                    <REPORT_PORT_8080_TCP_ADDR>report</REPORT_PORT_8080_TCP_ADDR>
-                                    <REPORT_PORT_8080_TCP_PORT>8080</REPORT_PORT_8080_TCP_PORT>
-                                </env>
-                                <cmd>java -jar maven/worker.jar</cmd>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>docker-maven</id>
+            <build>
+                <plugins>
 
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <!-- base image for different worker instances -->
+                                <image>
+                                    <name>${docker.image.name.worker}</name>
+                                    <alias>${docker.alias.worker.base}</alias>
+                                    <build>
+                                        <from>jolokia/java-jolokia:7</from>
+                                        <assembly>
+                                            <descriptorRef>artifact-with-dependencies</descriptorRef>
+                                        </assembly>
+                                        <env>
+                                            <REPORT_PORT_8080_TCP_ADDR>report</REPORT_PORT_8080_TCP_ADDR>
+                                            <REPORT_PORT_8080_TCP_PORT>8080</REPORT_PORT_8080_TCP_PORT>
+                                        </env>
+                                        <cmd>java -jar maven/worker.jar</cmd>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
