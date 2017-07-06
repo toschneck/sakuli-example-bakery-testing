@@ -48,8 +48,6 @@ function copyLogs(){
     mkdir -p $LOGFOLDER \
         && docker cp $CONTAINER_INSTANCE:$TESTSUITE_FOLDER/_logs $LOGFOLDER \
         && cat $LOGFILE
-    exit 0;
-    #TODO TS parse exit value for jenkins
 }
 
 function fixPermissions(){
@@ -74,8 +72,11 @@ if [[ $1 = '-d' ]]; then
     export SKIP_COPY_LOGS=true
 fi
 
-docker-compose -f $COMPOSE_FILE up --force-recreate --build $@ $SERVICENAME  \
-    && copyLogs $CONTAINER_NAME
-
-echo "unexpected error starting docker container '$CONTAINER_NAME' in docker-compose file '$COMPOSE_FILE'"
-exit -1
+docker-compose -f $COMPOSE_FILE up --exit-code-from $SERVICENAME --force-recreate --build $@ $SERVICENAME
+exit_code=$?
+copyLogs $CONTAINER_NAME
+echo "-------------------------------------------------------------------"
+echo "exit docker container '$CONTAINER_NAME' in docker-compose file '$COMPOSE_FILE'"
+echo "EXIT_CODE=$exit_code"
+echo "-------------------------------------------------------------------"
+exit $exit_code

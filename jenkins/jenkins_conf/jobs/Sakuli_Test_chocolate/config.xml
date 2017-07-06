@@ -21,6 +21,11 @@
           <defaultValue>chrome</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
+      <hudson.model.StringParameterDefinition>
+        <name>SERVICENAME</name>
+        <description></description>
+        <defaultValue>sakuli_3</defaultValue>
+      </hudson.model.StringParameterDefinition>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
