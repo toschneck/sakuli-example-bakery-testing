@@ -64,7 +64,7 @@ checkDefaults
 CONTAINER_NAME=sakuli-test-$TESTSUITE
 echo "start docker container: $CONTAINER_NAME"
 
-docker-compose -f $COMPOSE_FILE kill $SERVICENAME
+docker-compose -f $COMPOSE_FILE kill $SERVICENAME  && docker-compose -f $COMPOSE_FILE rm -f  $SERVICENAME
 if [[ $1 =~ kill ]]; then
     exit 0
 fi
