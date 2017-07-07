@@ -13,8 +13,8 @@ if [[ $1 =~ build ]]; then
     OS_BUILD_ONLY=true
 fi
 
-TEMPLATE_BUILD=$FOLDER/openshift.bakery.generic.build.yaml
-TEMPLATE_DEPLOY=$FOLDER/openshift.web.deploy.yaml
+TEMPLATE_BUILD=$FOLDER/openshift.build.bakery.generic.yaml
+TEMPLATE_DEPLOY=$FOLDER/openshift.deploy.web.yaml
 
 BUILD_DOCKERFILE='Dockerfile.report'
 PROBE_PATH='/report'
@@ -40,7 +40,11 @@ function deployOpenshiftObject(){
 function deleteOpenshiftObject(){
     app_name=$1
     echo "DELETE Config for $app_name"
-    oc delete all -l "application=$app_name"  --grace-period=5
+    oc delete dc -l "application=$app_name"  --grace-period=5
+    oc delete deployment -l "application=$app_name"  --grace-period=5
+    oc delete pods -l "application=$app_name"  --grace-period=5
+    oc delete service -l "application=$app_name"  --grace-period=5
+    oc delete route -l "application=$app_name"  --grace-period=5
     echo "-------------------------------------------------------------------"
 
 }

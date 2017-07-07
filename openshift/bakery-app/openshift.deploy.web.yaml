@@ -52,7 +52,7 @@ objects:
           dc: ${APP_NAME}-dc
         name: ${APP_NAME}-pod
       dnsPolicy: ClusterFirst
-      terminationGracePeriodSeconds: 10
+      terminationGracePeriodSeconds: 3
       spec:
         containers:
         - name: ${APP_NAME}-pod
