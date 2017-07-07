@@ -2,7 +2,6 @@ MODULE_PATH='.'
 stage('Build') {
     node {
         checkout scm
-//        def buildVersion = sh(script: 'git rev-parse --short HEAD | head -c 7', returnStdout: true)
         dir ("${MODULE_PATH}/bakery-app") {
             sh "env"
             sh "mvn -version"

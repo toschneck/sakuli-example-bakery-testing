@@ -1,10 +1,14 @@
-FROM jolokia/java-jolokia:7
+FROM consol/tomcat-7.0
 
 ARG NEXUS_HOST=nexus
 ARG VERS='1.0'
 
 ENV VERS=${VERS}
-RUN env
+ENV FACTORY_TYPE=chocolate, FACTORY_COSTS=200, \
+    REPORT_PORT_8080_TCP_ADDR=report, REPORT_PORT_8080_TCP_PORT=8080, \
+    ACTIVEMQ_PORT_61616_TCP_ADDR=activemq, ACTIVEMQ_PORT_61616_TCP_PORT=61616
+
+RUN env  && echo "use NEXUS_HOST: ${NEXUS_HOST}"
 ADD http://${NEXUS_HOST}/nexus/service/local/repositories/releases/content/com/consol/demo/bakery/bakery-worker/${VERS}/bakery-worker-${VERS}.jar /maven/
 RUN chmod -R -v a+rw /maven && find /maven -type d -exec chmod -v a+x {} +
 
