@@ -22,7 +22,7 @@ if [[ $1 =~ kill ]]; then
     exit 0
 fi
 ### build an startup application and  start the wait container to block until the web-applications are reachable
-mvn -f $WORKSPACE/bakery-app/pom.xml package \
+mvn -f $WORKSPACE/bakery-app/pom.xml -P docker-maven package \
     && docker-compose -f $COMPOSEFILE build \
     && docker-compose -f $COMPOSEFILE up -d \
     && docker-compose -f $COMPOSE_WAIT build \

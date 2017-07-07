@@ -69,29 +69,38 @@
                     <warName>${deployment.name}</warName>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>${docker.image.name.web-server}</name>
-                            <alias>${docker.alias.web-server}</alias>
-                            <build>
-                                <from>consol/${application.server}:latest</from>
-                                <assembly>
-                                    <descriptorRef>artifact</descriptorRef>
-                                </assembly>
-                                <env>
-                                    <CATALINA_OPTS>-Xmx64m</CATALINA_OPTS>
-                                </env>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>docker-maven</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>${docker.image.name.web-server}</name>
+                                    <alias>${docker.alias.web-server}</alias>
+                                    <build>
+                                        <from>consol/${application.server}:latest</from>
+                                        <assembly>
+                                            <descriptorRef>artifact</descriptorRef>
+                                        </assembly>
+                                        <env>
+                                            <CATALINA_OPTS>-Xmx64m</CATALINA_OPTS>
+                                        </env>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
