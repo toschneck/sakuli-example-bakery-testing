@@ -18,7 +18,7 @@ parameters:
 - name: NEXUS_HOST
   required: true
   # TODO config via script
-  value: 'nexus-openshift-day-dev.192.168.99.100.nip.io'
+  value: 'nexus'
 - description: 'Custom hostname for http service route.  Leave blank for default hostname, e.g.: <APP_NAME-name>-<project>.<default-domain-suffix>'
   name: HOSTNAME_HTTP
 - description: 'Generic build trigger secret'
@@ -38,7 +38,7 @@ parameters:
   value: bakery-app
 - description: Name of the Dockerfile for example Dockerfile.openshift
   name: SOURCE_DOCKERFILE
-  value: Dockerfile
+  value: Dockerfile.worker
 ### Configuration of OpenShift objects
 objects:
 ### BUILD Config
