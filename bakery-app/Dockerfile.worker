@@ -1,6 +1,6 @@
 FROM jolokia/java-jolokia:7
 
-ARG NEXUS_HOST=nexus-int
+ARG NEXUS_HOST=nexus
 ARG VERS='1.0'
 
 ENV VERS=${VERS}
