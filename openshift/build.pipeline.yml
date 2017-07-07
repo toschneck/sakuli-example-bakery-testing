@@ -102,7 +102,7 @@ objects:
             }
             stage ('build maven'){
               sh "ls -la ${MODULE_PATH}"
-              sh "mvn -s openshift/infrastructur/maven-cd-settings.xml -f bakery-app/worker/pom.xml clean deploy "
+              sh "mvn -s openshift/infrastructur/maven-cd-settings.xml -f bakery-app/pom.xml clean deploy "
             }
             stage ('build dockerimage') {
               sh "openshift/bakery-app/deploy_bakery.sh build"
