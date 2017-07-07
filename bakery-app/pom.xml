@@ -376,7 +376,7 @@
     <distributionManagement>
         <repository>
             <id>nexus</id>
-            <url>http://http://nexus-nexus.paas.osp.consol.de/content/repositories/releases/</url>
+            <url>http://nexus-nexus.paas.osp.consol.de/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
             <id>nexusSnap</id>
