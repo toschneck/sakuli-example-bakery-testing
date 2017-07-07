@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 labels:
-  template: bakery-builder
+  template: bakery-generic-build
 metadata:
   annotations:
     description: Building bakery images
@@ -9,20 +9,26 @@ metadata:
     tags: consol
     version: 1.1.0
   creationTimestamp: null
-  name: bakery-build
+  name: bakery-generic-build
 ### template parameter defined via `oc process -f this.yaml -v PARAMETER=value`
 parameters:
+# REQUIRED
 - name: APP_NAME
   required: true
-  value: bakery-worker
+- description: Name of the Dockerfile for example Dockerfile.openshift
+  name: SOURCE_DOCKERFILE
+# OPTIONAL
+- name: SOURCE_DOCKER_CONTEXT_DIR
+  description: Source Folder where the Dockerfile is placed example `docker`
+  value: bakery-app
 - name: NEXUS_HOST
   required: true
   # TODO config via script
   value: 'nexus-nexus.paas.osp.consol.de'
-- description: 'Custom hostname for http service route.  Leave blank for default hostname, e.g.: <APP_NAME-name>-<project>.<default-domain-suffix>'
-  name: HOSTNAME_HTTP
-- description: 'Generic build trigger secret'
-  name: GENERIC_WEBHOOK_SECRET
+- name: HOSTNAME_HTTP
+  description: 'Custom hostname for http service route.  Leave blank for default hostname, e.g.: <APP_NAME-name>-<project>.<default-domain-suffix>'
+- name: GENERIC_WEBHOOK_SECRET
+  description: 'Generic build trigger secret'
   generate: expression
   from: '[a-zA-Z0-9]{8}'
   required: true
@@ -33,12 +39,6 @@ parameters:
 - description: Git branch/tag reference
   name: SOURCE_REPOSITORY_REF
   value: 'pipeline'
-- description: Source Folder where the Dockerfile is placed example `docker`
-  name: SOURCE_DOCKER_CONTEXT_DIR
-  value: bakery-app
-- description: Name of the Dockerfile for example Dockerfile.openshift
-  name: SOURCE_DOCKERFILE
-  value: Dockerfile.worker
 ### Configuration of OpenShift objects
 objects:
 ### BUILD Config
@@ -80,4 +80,3 @@ objects:
       type: Generic
     - imageChange: {}
       type: ImageChange
-    - type: ConfigChange
