@@ -1,6 +1,6 @@
 FROM jolokia/java-jolokia:7
 
-ARG NEXUS_HOST=nexus
+ARG NEXUS_HOST=nexus-nexus.paas.osp.consol.de
 ARG VERS='1.0'
 
 ENV VERS=${VERS}

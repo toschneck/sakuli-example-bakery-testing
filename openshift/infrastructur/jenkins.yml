@@ -49,7 +49,7 @@ objects:
             value: jenkins-jnlp
           serviceAccount: jenkins
           image: ''
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 30
             httpGet:
@@ -99,8 +99,7 @@ objects:
         - ${APP_NAME}
         from:
           kind: ImageStreamTag
-          name: jenkins:latest
-          namespace: openshift
+          name: jenkins2-ci:centos7
       type: ImageChange
     - type: ConfigChange
 - apiVersion: v1

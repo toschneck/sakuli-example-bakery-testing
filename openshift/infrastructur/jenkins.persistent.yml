@@ -9,6 +9,24 @@ parameters:
     value: jenkins
 objects:
 - apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: jenkins2-ci
+    name: jenkins2-ci
+  spec:
+    tags:
+    - annotations:
+        description: The jenkins 2 for Openshift Docker image
+        tags: jenkins2-ci
+      from:
+        kind: DockerImage
+        name: openshift/jenkins-2-centos7:latest
+      importPolicy: {}
+      name: centos7
+      referencePolicy:
+        type: Local
+- apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
     annotations:

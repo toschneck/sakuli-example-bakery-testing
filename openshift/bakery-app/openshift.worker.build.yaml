@@ -18,7 +18,7 @@ parameters:
 - name: NEXUS_HOST
   required: true
   # TODO config via script
-  value: 'nexus'
+  value: 'nexus-nexus.paas.osp.consol.de'
 - description: 'Custom hostname for http service route.  Leave blank for default hostname, e.g.: <APP_NAME-name>-<project>.<default-domain-suffix>'
   name: HOSTNAME_HTTP
 - description: 'Generic build trigger secret'

@@ -3,7 +3,8 @@
         <mirror>
             <id>nexus</id>
             <mirrorOf>*</mirrorOf>
-            <url>http://nexus:8081/content/groups/public</url>
+            <!--<url>http://nexus:8081/content/groups/public</url>-->
+            <url>http://nexus-nexus.paas.osp.consol.de/content/groups/public</url>
         </mirror>
     </mirrors>
     <servers>

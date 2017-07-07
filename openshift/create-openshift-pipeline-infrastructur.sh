@@ -12,7 +12,7 @@ function checkDefaults(){
 }
 checkDefaults
 
-if [[ $1 =~ kill ]]; then
+if [[ $1 =~ delete ]]; then
     echo "============= DELETE PROJECTS =================="
     oc delete project "${PROJECT_BASENAME}-dev"
     oc delete project "${PROJECT_BASENAME}-qa"
@@ -22,7 +22,6 @@ fi
 
 echo "============= prepare DEV stage =================="
 oc new-project "${PROJECT_BASENAME}-dev"
-$FOLDER/infrastructur/create-infrastructur.sh
 
 oc create sa cd-agent
 oc policy add-role-to-user admin -z cd-agent
@@ -45,3 +44,6 @@ echo "============= configure DEV stage =================="
 oc project "${PROJECT_BASENAME}-dev"
 oc policy add-role-to-group system:image-puller system:serviceaccounts:${PROJECT_BASENAME}-qa
 oc policy add-role-to-group system:image-puller system:serviceaccounts:${PROJECT_BASENAME}-prod
+
+$FOLDER/infrastructur/create-infrastrutur.sh
+echo "finished!"
