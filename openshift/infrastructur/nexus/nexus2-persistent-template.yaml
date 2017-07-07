@@ -55,6 +55,8 @@ objects:
         - env:
           - name: CONTEXT_PATH
             value: /
+          - name: TZ
+            value: 'Europe/Berlin'
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
