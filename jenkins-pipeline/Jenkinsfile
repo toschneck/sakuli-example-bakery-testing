@@ -1,12 +1,13 @@
 MODULE_PATH='.'
-stage('Build') {
+stage('Checkout') {
     node {
         checkout scm
-        dir ("${MODULE_PATH}/bakery-app") {
-            sh "env"
-            sh "mvn -version"
-            sh "docker version"
-        }
+        sh "ls -la ${MODULE_PATH}"
+    }
+}
+stage('delete deployment') {
+    node {
+        sh  "openshift/bakery-app/create_activemq.sh delete"
     }
 }
 //try {
