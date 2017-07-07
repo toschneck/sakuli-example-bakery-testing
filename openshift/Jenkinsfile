@@ -11,7 +11,7 @@ stage('Build') {
     }
 }
 stage('Test') {
-    node('jenkins-slave-maven-updated') {
+    node('maven') {
         echo sh(script:"mvn --version", returnStdout: true)
         checkout scm
         dir ("${MODULE_PATH}") {
