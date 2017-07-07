@@ -86,7 +86,7 @@ objects:
         securityContext: {}
         serviceAccount: jenkins
         serviceAccountName: jenkins
-        terminationGracePeriodSeconds: 30
+        terminationGracePeriodSeconds: 10
         volumes:
         - name: jenkins-data
           persistentVolumeClaim:

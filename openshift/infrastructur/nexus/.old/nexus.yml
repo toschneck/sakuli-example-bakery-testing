@@ -79,7 +79,7 @@ objects:
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
-        terminationGracePeriodSeconds: 30
+        terminationGracePeriodSeconds: 10
         volumes:
         - name: nexus-volume-1
           persistentVolumeClaim:
