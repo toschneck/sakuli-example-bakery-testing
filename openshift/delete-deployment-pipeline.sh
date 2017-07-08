@@ -10,7 +10,7 @@ if [[ $1 =~ build ]]; then
     OS_BUILD_ONLY=true
 fi
 
-TEMPLATE=$FOLDER/build.pipeline.yml
+TEMPLATE=$FOLDER/delete.deployment.pipeline.yml
 count=0
 
 
@@ -54,7 +54,7 @@ function deployToOpenshift() {
 
 }
 
-deployToOpenshift 'bakery-build-ci'
+deployToOpenshift 'bakery-delete-ci'
 
 wait
 exit $?
