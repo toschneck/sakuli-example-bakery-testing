@@ -2,5 +2,7 @@
 
 - name: Configure OMD site {{ SITENAME }} for Bakery Applikation
   hosts: all
+  environment:
+    OMD_ROOT: "/opt/omd/sites/{{ SITENAME }}"
   roles:
     - bakery
