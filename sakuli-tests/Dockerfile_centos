@@ -1,12 +1,12 @@
-FROM consol/sakuli-centos-xfce:dev
+FROM consol/sakuli-centos-xfce:v1.1.0
 
 MAINTAINER Tobias Schneck "tobias.schneck@consol.de"
-ENV REFRESHED_AT 2017-07-05
+ENV REFRESHED_AT 2017-12-19
 ENV TZ=Europe/Berlin
 
 ## Install a PDF viewer
 USER 0
-RUN yum install -y libsane-hpaio http://get.code-industry.net/public/master-pdf-editor-4.2.30_qt5.x86_64.rpm \
+RUN yum install -y libsane-hpaio http://get.code-industry.net/public/master-pdf-editor-4.3.61_qt5.x86_64.rpm \
     && yum clean all \
         && mkdir -p $HOME/.config/Code\ Industry \
         && echo "[General]" > $HOME/.config/Code\ Industry/Master\ PDF\ Editor.conf \
